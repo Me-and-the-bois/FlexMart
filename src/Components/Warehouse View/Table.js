@@ -9,8 +9,7 @@ export default class Table extends React.Component {
         };
     }
     deleteProduct = (row) => {
-        console.log("Delete!!", row);
-        //delete from backend
+        this.props.delete(row);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -30,7 +29,7 @@ export default class Table extends React.Component {
                 <tbody>
                     {this.state.data.map(row => {
                                 return(
-                                <tr key={Object.values(row)[1]}>
+                                <tr key={Object.values(row)[2]}>
                                     {Object.keys(row).map(rowdatakey => {
                                             if(rowdatakey !== 'pimg')
                                             return <td key={rowdatakey}>{row[rowdatakey]}</td>

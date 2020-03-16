@@ -1,21 +1,39 @@
 import React, { Fragment } from 'react';
 import Table from './Table';
+import axios from 'axios';
 
 export default class warehouse extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            columns: [],
+            columns: ["PIMAGE","PTYPE","PID","PNAME","PNO","PPRICE"],
             productList: []
         };
+        this.handleDelete = this.handleDelete.bind(this);
+        this.getData();
     }
     componentDidUpdate() {
         const addProductButton = document.getElementById('addProduct');
-        if(this.state.productList) {
+        if(this.state.productList.length > 0) {
             addProductButton.hidden = false;
         } else {
             addProductButton.hidden = true;
         }
+    }
+
+    getData() {
+        axios.get("http://localhost:5000")
+            .then(res => {
+                console.log('Data from backend', res.data);
+                const tempList = res.data.data.map(obj => {
+                    delete obj._id;
+                    delete obj.__v;
+                    return obj;
+                })
+                this.setState({
+                    productList: tempList
+                });
+            });
     }
     addNewProduct = e => {
         e.preventDefault();
@@ -29,17 +47,17 @@ export default class warehouse extends React.Component {
         if(pid&&pname&&pimg&&pno&&pprice) {
             console.log("New product added!!");
             //send to database
-            pimg = URL.createObjectURL(pimg);
-            const productData = {ptype,pid,pname,pimg,pno,pprice};
-            this.tempList = [...this.state.productList];
-            this.tempList.push(productData);
-            console.log(this.tempList);
-            this.setState({
-                productList: this.tempList,
-                columns: ["PTYPE","PID","PNAME","PIMAGE","PNO","PPRICE"]
-            }, () => {
-                console.log('Updated Product List', this.state.productList);
-            });
+            const reader = new FileReader();
+            reader.readAsDataURL(pimg);
+            reader.onloadend = () => {
+                pimg = reader.result;
+                const productData = {pimg,ptype,pid,pname,pno,pprice};
+                axios.post("http://localhost:5000/productList", productData)
+                    .then(res => {
+                        console.log(res.data.message);
+                        this.getData();
+                    });
+            }
         } else {
             console.log("Form empty!!");
         }
@@ -49,6 +67,15 @@ export default class warehouse extends React.Component {
         console.log("Add list of products to customer view table!!");
     }
     
+    handleDelete(row) {
+        console.log("Delete!!", row);
+        axios.delete("http://localhost:5000/productList", {data: {id: row.pid}})
+            .then(res => {
+                console.log(res.data.message);
+                this.getData();
+            })
+    }
+
     render() {
         return(
             <Fragment>
@@ -85,7 +112,7 @@ export default class warehouse extends React.Component {
                     //shows list of products to be sold
                     }
                     <p>List of products:</p>
-                    <Table columns={this.state.columns} data={this.state.productList}/><br/>
+                    <Table columns={this.state.columns} data={this.state.productList} delete={this.handleDelete} hidden/><br/>
                     <button type="button" id="addProduct" className="btn btn-dark mx-1" onClick={this.addProduct} hidden>Add</button>
                 </div>
             </Fragment>
