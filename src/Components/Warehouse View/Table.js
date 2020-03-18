@@ -11,6 +11,9 @@ export default class Table extends React.Component {
     deleteProduct = (row) => {
         this.props.delete(row);
     }
+    editProduct = (row) => {
+        this.props.edit(row);
+    }
 
     static getDerivedStateFromProps(props, state) {
         return {
@@ -39,6 +42,7 @@ export default class Table extends React.Component {
                                             }
                                         })}
                                     <td><button type="button" className="btn btn-dark mx-1" onClick= {() => {this.deleteProduct(row)}}>Delete</button></td>
+                                    <td><button type="button" className="btn btn-dark mx-1" onClick= {() => {this.editProduct(row)}}>Edit</button></td>
                                 </tr>
                                 );
                             })

@@ -1,6 +1,7 @@
 const express = require('express');
 let bodyParser = require('body-parser');
 const warehouseRoutes = require('./routes/warehouse');
+const customerRoutes = require('./routes/customer');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -22,7 +23,8 @@ app.use((req,res,next) => {
   res.setHeader("Access-Control-Allow-Methods","GET, POST, PUT, PATCH, DELETE, OPTIONS");
   next();
 });
-app.use('', warehouseRoutes);
+app.use('/warehouse', warehouseRoutes);
+app.use('/customer', customerRoutes);
 app.listen(port, () => {
   console.log(`Listening to requests on http://localhost:${port}`);
 });
