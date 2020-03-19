@@ -20,12 +20,12 @@ const App = () => (
           <Switch>
             <Route exact path='/login' component={login}/>
             <Route exact path='/register' component={register}/>
-            <Route exact path='/customer/dashboard' component={customer}/>
-            <Route exact path='/admin/dashboard' component={admin}/>
-            <Route exact path='/delivery/dashboard' component={delivery}/>
-            <Route exact path='/warehouse/dashboard' component={warehouse}/>
           </Switch>
         </section>
+        <Route exact path='/customer/dashboard' component={customer}/>
+        <Route exact path='/admin/dashboard' component={admin}/>
+        <Route exact path='/delivery/dashboard' component={delivery}/>
+        <Route exact path='/warehouse/dashboard' component={warehouse}/>
       </Fragment>
     </Router>
 );
