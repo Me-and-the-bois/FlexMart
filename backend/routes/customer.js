@@ -69,4 +69,32 @@ router.post('/productList/clothes/add', (req,res,next) => {
         })
 })
 
+router.get('/edevices/data', (req,res,next) => {
+    EdeviceList.find({})
+        .then((response) => {
+            res.status(201).json({message: "E-devices list received successfully!!", data: response});
+        })
+})
+
+router.get('/clothes/data', (req,res,next) => {
+    ClothesList.find({})
+        .then((response) => {
+            res.status(201).json({message: "Clothes list received successfully!!", data: response});
+        })
+})
+
+router.get('/food/data', (req,res,next) => {
+    FoodList.find({})
+        .then((response) => {
+            res.status(201).json({message: "Food list received successfully!!", data: response});
+        })
+})
+
+router.get('/furniture/data', (req,res,next) => {
+    FurnitureList.find({})
+        .then((response) => {
+            res.status(201).json({message: "Furniture list received successfully!!", data: response});
+        })
+})
+
 module.exports = router;
