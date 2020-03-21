@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
-import Cart from './cart';
+import {connect} from 'react-redux';
 
-export default class Product extends React.Component {
+class Product extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,14 +18,20 @@ export default class Product extends React.Component {
     }
 
     handleChange() {
-        console.log('Quantity:', document.getElementById('quantity').value);
+        console.log('Quantity:', document.getElementById('quantity' + this.props.id).value);
         // eslint-disable-next-line react/no-direct-mutation-state
-        this.state.obj.pno = document.getElementById('quantity').value;
-        console.log(this.state.obj);
+        this.state.obj.pno = document.getElementById('quantity' + this.props.id).value;
+
     }
 
     handleClick() {
-        console.log('Product added to cart:', this.state.obj);
+        if(document.getElementById('quantity' + this.props.id).value) {
+            console.log('Product added to cart:', this.state.obj);
+            document.getElementById('reset' + this.props.id).click();
+            this.props.addToCart(this.state.obj);
+        } else {
+            console.log("Enter the number of products you want to buy!!");
+        }
     }
 
     render() {
@@ -40,8 +46,9 @@ export default class Product extends React.Component {
                             <p className="card-text">Price: {this.props.dataObj.pprice}</p>
                             <p className="card-text">Available: {this.props.dataObj.pno}</p>
                             <span>Number:</span>
-                            <input type="number" id="quantity" name="quantity" min="1" max={this.props.dataObj.pno} onChange={this.handleChange}/>
+                            <input type="number" id={"quantity" + this.props.id} name="quantity" min="1" max={this.props.dataObj.pno} onChange={this.handleChange}/>
                             <button type="button" className="btn btn-dark my-1" onClick={this.handleClick}>Add to cart</button>
+                            <button type="reset" id={"reset" + this.props.id} hidden>Reset</button>
                         </div>
                     </div>
                 </form>
@@ -49,3 +56,11 @@ export default class Product extends React.Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+      addToCart: (obj) => dispatch({type: 'ADD_TO_CART', object: obj})
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Product);

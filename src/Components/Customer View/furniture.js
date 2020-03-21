@@ -39,7 +39,7 @@ export default class furniture extends React.Component {
             if(count === n) break;
         }
         for(let i=0;i<n;i++) {
-            ReactDOM.render(<Product dataObj={this.state.dataList[i]}/>, document.getElementById('prod'+i));
+            ReactDOM.render(<Product dataObj={this.state.dataList[i]} id={i}/>, document.getElementById('prod'+i));
         }
     }
 
