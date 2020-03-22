@@ -26,7 +26,6 @@ class Product extends React.Component {
 
     handleClick() {
         if(document.getElementById('quantity' + this.props.id).value) {
-            console.log('Product added to cart:', this.state.obj);
             document.getElementById('reset' + this.props.id).click();
             this.props.addToCart(this.state.obj);
         } else {

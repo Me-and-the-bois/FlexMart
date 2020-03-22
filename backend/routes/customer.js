@@ -97,4 +97,132 @@ router.get('/furniture/data', (req,res,next) => {
         })
 })
 
+router.post('/productList/edevice/update', (req,res,next) => {
+    const edevice = req.body;
+    let updatedEdeviceList = [];
+    edevice.forEach(element =>{
+        EdeviceList.findById(element.pid, (obj) => {
+            if(obj.pno > element.pno){
+                obj.pno -= element.pno;
+            } else if(obj.pno === element.pno) {
+                obj.pno = "0";
+            } else {
+                res.status(400).json({message: "Product demand exceeds limit!!"});
+            }
+        });
+    })
+    EdeviceList.find({})
+        .then(data => {
+            edevice.forEach(element => {
+                updatedEdeviceList = data.map(obj => {
+                    if(obj.pid === element.pid) {
+                        if(obj.pno > element.pno){
+                            obj.pno -= element.pno;
+                        } else if(obj.pno === element.pno) {
+                            obj.pno = "0";
+                        } else {
+                            res.status(400).json({message: "Product demand exceeds limit!!"});
+                        }
+                    }
+                    return obj;
+                });
+            });
+            for(let i=0;i<updatedEdeviceList.length;i++) {
+                const product = new EdeviceList({pimg: updatedEdeviceList[i].pimg,ptype: updatedEdeviceList[i].ptype,pid: updatedEdeviceList[i].pid,pname: updatedEdeviceList[i].pname,pno: updatedEdeviceList[i].pno,pprice: updatedEdeviceList[i].pprice});
+                product.save().then(result => {
+                    console.log(result._id);
+                  });
+            }  
+            res.status(201).json({message: "E-device list updated successfully!!"});
+        });
+})
+
+router.post('/productList/food/update', (req,res,next) => {
+    const food = req.body;
+    let updatedFoodList = [];
+    FoodList.find({})
+        .then(data => {
+            food.forEach(element => {
+                updatedFoodList = data.map(obj => {
+                    if(obj.pid === element.pid) {
+                        if(obj.pno > element.pno){
+                            obj.pno -= element.pno;
+                        } else if(obj.pno === element.pno) {
+                            obj.pno = "0";
+                        } else {
+                            res.status(400).json({message: "Product demand exceeds limit!!"});
+                        }
+                    }
+                    return obj;
+                });
+            });
+            for(let i=0;i<updatedFoodList.length;i++) {
+                const product = new EdeviceList({pimg: updatedFoodList[i].pimg,ptype: updatedFoodList[i].ptype,pid: updatedFoodList[i].pid,pname: updatedFoodList[i].pname,pno: updatedFoodList[i].pno,pprice: updatedFoodList[i].pprice});
+                product.save().then(result => {
+                    console.log(result._id);
+                  });
+            }  
+            res.status(201).json({message: "Food list updated successfully!!"});
+        });
+})
+
+router.post('/productList/furniture/update', (req,res,next) => {
+    const furniture = req.body;
+    let updatedFurnitureList = [];
+    FurnitureList.find({})
+        .then(data => {
+            furniture.forEach(element => {
+                updatedFurnitureList = data.map(obj => {
+                    if(obj.pid === element.pid) {
+                        if(obj.pno > element.pno){
+                            obj.pno -= element.pno;
+                        } else if(obj.pno === element.pno) {
+                            obj.pno = "0";
+                        } else {
+                            res.status(400).json({message: "Product demand exceeds limit!!"});
+                        }
+                    }
+                    return obj;
+                });
+            });
+            for(let i=0;i<updatedFurnitureList.length;i++) {
+                const product = new EdeviceList({pimg: updatedFurnitureList[i].pimg,ptype: updatedFurnitureList[i].ptype,pid: updatedFurnitureList[i].pid,pname: updatedFurnitureList[i].pname,pno: updatedFurnitureList[i].pno,pprice: updatedFurnitureList[i].pprice});
+                product.save().then(result => {
+                    console.log(result._id);
+                  });
+            }  
+            res.status(201).json({message: "Furniture list updated successfully!!"});
+        });
+})
+
+router.post('/productList/clothes/update', (req,res,next) => {
+    const clothes = req.body;
+    let updatedClothesList = [];
+    ClothesList.find({})
+        .then(data => {
+            clothes.forEach(element => {
+                updatedClothesList = data.map(obj => {
+                    if(obj.pid === element.pid) {
+                        if(obj.pno > element.pno){
+                            obj.pno -= element.pno;
+                        } else if(obj.pno === element.pno) {
+                            obj.pno = "0";
+                        } else {
+                            res.status(400).json({message: "Product demand exceeds limit!!"});
+                        }
+                    }
+                    return obj;
+                });
+            });
+            for(let i=0;i<updatedClothesList.length;i++) {
+                const product = new EdeviceList({pimg: updatedClothesList[i].pimg,ptype: updatedClothesList[i].ptype,pid: updatedClothesList[i].pid,pname: updatedClothesList[i].pname,pno: updatedClothesList[i].pno,pprice: updatedClothesList[i].pprice});
+                product.save().then(result => {
+                    console.log(result._id);
+                  });
+            }  
+            res.status(201).json({message: "Clothes list updated successfully!!"});
+        });
+})
+
+
 module.exports = router;

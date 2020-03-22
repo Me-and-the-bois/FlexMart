@@ -2,6 +2,9 @@ import React, { Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import Axios from 'axios';
 import Product from './product';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import rootReducer from '../../reducers/rootReducer';
 
 export default class clothes extends React.Component {
     constructor(props) {
@@ -38,8 +41,9 @@ export default class clothes extends React.Component {
             document.getElementById('container').appendChild(rowElem);
             if(count === n) break;
         }
+        const store = createStore(rootReducer);
         for(let i=0;i<n;i++) {
-            ReactDOM.render(<Product dataObj={this.state.dataList[i]} id={i}/>, document.getElementById('prod'+i));
+            ReactDOM.render(<Provider store={store}><Product dataObj={this.state.dataList[i]} id={i}/></Provider>, document.getElementById('prod'+i));
         }
     }
 
