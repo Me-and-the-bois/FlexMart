@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import {connect} from 'react-redux';
 import { createStore } from 'redux';
-import { useHistory } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import rootReducer from '../../reducers/rootReducer';
 import Axios from 'axios';
 
@@ -76,25 +76,32 @@ class Cart extends React.Component {
         Axios.post("http://localhost:5000/delivery/add", {data: this.state.productList})
             .then((res) => {
                 console.log(res.data.message);
-                Axios.post("http://localhost:5000/customer/productList/edevice/update", edevice)
-                    .then(res => {
-                        console.log(res.data.message);
-                    });
-                Axios.post("http://localhost:5000/customer/productList/clothes/update", clothes)
-                            .then(res => {
-                                console.log(res.data.message);
-                            });
-                Axios.post("http://localhost:5000/customer/productList/food/update", food)
-                            .then(res => {
-                                console.log(res.data.message);
-                            });
-                Axios.post("http://localhost:5000/customer/productList/furniture/update", furniture)
-                            .then(res => {
-                                console.log(res.data.message);
-                            });
-                // this.remove();
-                // const history = useHistory();
-                // history.push("/customer/dashboard");
+                if(edevice) {
+                    Axios.post("http://localhost:5000/customer/productList/edevice/update", edevice)
+                        .then(res => {
+                            console.log(res.data.message);
+                        });
+                }
+                if(clothes) {
+                    Axios.post("http://localhost:5000/customer/productList/clothes/update", clothes)
+                        .then(res => {
+                            console.log(res.data.message);
+                        });
+                }
+                if(food) {
+                    Axios.post("http://localhost:5000/customer/productList/food/update", food)
+                        .then(res => {
+                            console.log(res.data.message);
+                        });
+                }
+                if(furniture) {
+                    Axios.post("http://localhost:5000/customer/productList/furniture/update", furniture)
+                        .then(res => {
+                            console.log(res.data.message);
+                        });
+                }
+                this.remove();
+                this.props.history.push("/customer/dashboard");
             },
             (err) => {
                 console.log(err);
@@ -165,4 +172,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Cart);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Cart));
