@@ -9,6 +9,8 @@ const navbar = ()  => {
                     <ul className="nav navbar-nav">
                         <li>
                             <Link to='/'><button type="button" className="btn btn-outline-warning">Flex Mart</button></Link>
+                            <Link to='/customer/dashboard'><button type="button" className="btn btn-outline-warning mx-1">Dashboard</button></Link>
+                            <Link to='/customer/cart'><button type="button" className="btn btn-outline-warning mx-1">Cart</button></Link>
                         </li>
                     </ul>
                     <ul className="nav navbar-nav ml-auto">
