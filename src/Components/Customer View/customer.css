@@ -1,0 +1,24 @@
+.upper {
+    padding-top: 10%;
+    padding-bottom: 5%;
+}
+
+.edevice {
+    background-color: orange;
+}
+
+.clothes {
+    background-color:greenyellow;
+}
+
+.furniture {
+    background-color: brown;
+}
+
+.food {
+    background-color:peachpuff;
+}
+
+.card {
+    color: black;
+}
