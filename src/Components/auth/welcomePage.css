@@ -1,0 +1,29 @@
+.welcome-head {
+  margin: auto;
+
+  padding: 10px;
+  text-align: center;
+  font-size: 60px;
+}
+
+.welcome-components {
+  text-align: center;
+  font-size: 30px;
+}
+.welcome-x {
+  padding: 15px;
+}
+.welcome-page {
+  margin-top: 18%;
+  padding-top: 4.5%;
+  padding-bottom: 4.5%;
+  margin-left: 24%;
+  width: 50%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  background-color:#FFFF66;
+}
+
+.welcome-page:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}

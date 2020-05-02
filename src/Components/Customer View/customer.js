@@ -1,12 +1,14 @@
 import React, { Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
 import './customer.css';
+import Navbar from '../layout/navbar';
 
 class customer extends React.Component {
 
     render() {
         return(
             <Fragment>
+                <Navbar type='customer'/>
                 <div className="container">
                     <div className="row m-3 upper">
                         <div className="col-sm-6">

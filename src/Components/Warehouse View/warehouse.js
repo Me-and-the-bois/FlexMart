@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import Table from './Table';
 import axios from 'axios';
 import ModalComponent from './ModalComponent';
+import Navbar from '../layout/navbar';
 
 export default class warehouse extends React.Component {
     constructor(props){
@@ -163,6 +164,7 @@ export default class warehouse extends React.Component {
     render() {
         return(
             <Fragment>
+                <Navbar type='warehouse'/>
                 <header><h1>FlexMart Online Store</h1></header>
                 <div className="newProduct">
                     {

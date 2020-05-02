@@ -5,7 +5,7 @@ import Product from './product';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import rootReducer from '../../reducers/rootReducer';
-
+import Navbar from '../layout/navbar';
 export default class furniture extends React.Component {
     constructor(props) {
         super(props);
@@ -50,6 +50,7 @@ export default class furniture extends React.Component {
     render() {
         return(
             <Fragment>
+                <Navbar type='customer'/>
                 <h3>Furnitures</h3>
                 <span id="container" className="container"></span>
             </Fragment>

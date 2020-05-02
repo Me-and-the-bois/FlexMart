@@ -4,6 +4,7 @@ import { createStore } from 'redux';
 import {withRouter} from 'react-router-dom';
 import rootReducer from '../../reducers/rootReducer';
 import Axios from 'axios';
+import Navbar from '../layout/navbar';
 
 class Cart extends React.Component {
     constructor(props){
@@ -128,6 +129,7 @@ class Cart extends React.Component {
     render() {
         return(
             <Fragment>
+                <Navbar type='customer'/>
                 <div>
                 {
                     this.state.productList.map((obj) => {

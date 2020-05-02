@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
+import Navbar from '../layout/navbar';
 
 export default class delivery extends React.Component {
     constructor(props){
@@ -42,6 +43,7 @@ export default class delivery extends React.Component {
     render() {
         return(
             <Fragment>
+                <Navbar type='delivery'/>
                 <div>
                 {
                     this.state.products.map((obj) => {
