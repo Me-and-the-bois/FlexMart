@@ -1,19 +1,16 @@
 import React, { Fragment } from 'react';
-import Table from './Table';
 import axios from 'axios';
-import ModalComponent from './ModalComponent';
+import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody, MDBCardHeader } from 'mdbreact';
 import Navbar from '../layout/navbar';
+import './warehouse.css';
 
 export default class warehouse extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            columns: ["PIMAGE","PTYPE","PID","PNAME","PNO","PPRICE"],
             productList: [],
             rowDetails: {}
         };
-        this.handleDelete = this.handleDelete.bind(this);
-        this.handleEdit = this.handleEdit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.get = this.get.bind(this);
         this.getData();
@@ -21,12 +18,9 @@ export default class warehouse extends React.Component {
 
     componentDidUpdate() {
         const cpid = document.getElementById('pid');
-        const addProductButton = document.getElementById('addProduct');
         if(this.state.productList.length > 0) {
-            addProductButton.hidden = false;
             this.handleChange();
         } else {
-            addProductButton.hidden = true;
             cpid.value = 'e' + 1;
         }
     }
@@ -105,106 +99,85 @@ export default class warehouse extends React.Component {
         }
     }
 
-    addProduct = e => {
-        console.log("Add list of products to customer view table!!");
-        const edeviceList = [], clothList = [], furnitureList = [], foodList = [];
-        for(let i=0;i<this.state.productList.length;i++) {
-            if(this.state.productList[i].ptype === 'e-device') {
-                edeviceList.push(this.state.productList[i]);
-            }
-            if(this.state.productList[i].ptype === 'clothes') {
-                clothList.push(this.state.productList[i]);
-            }
-            if(this.state.productList[i].ptype === 'furniture') {
-                furnitureList.push(this.state.productList[i]);
-            }
-            if(this.state.productList[i].ptype === 'food') {
-                foodList.push(this.state.productList[i]);
-            }
-        }
-        console.log('E-device', edeviceList);
-        console.log('Clothes', clothList);
-        console.log('Food', foodList);
-        console.log('Furniture', furnitureList);
-        axios.post("http://localhost:5000/customer/productList/edevice/add", edeviceList)
-                    .then(res => {
-                        console.log(res.data.message);
-                    });
-        axios.post("http://localhost:5000/customer/productList/clothes/add", clothList)
-                    .then(res => {
-                        console.log(res.data.message);
-                    });
-        axios.post("http://localhost:5000/customer/productList/food/add", foodList)
-                    .then(res => {
-                        console.log(res.data.message);
-                    });
-        axios.post("http://localhost:5000/customer/productList/furniture/add", furnitureList)
-                    .then(res => {
-                        console.log(res.data.message);
-                    });
-    }
-    
-    handleDelete(row) {
-        console.log("Delete!!", row);
-        axios.delete("http://localhost:5000/warehouse/productList/delete", {data: {id: row.pid}})
-            .then(res => {
-                console.log(res.data.message);
-                this.getData();
-            })
-    }
-
-    handleEdit(row) {
-        console.log("Edit!!", row);
-        this.setState({
-            rowDetails: row
-        });
-        document.getElementById('myBtn').click();
-    }
-
     render() {
         return(
             <Fragment>
                 <Navbar type='warehouse'/>
-                <header><h1>FlexMart Online Store</h1></header>
-                <div className="newProduct">
-                    {
-                    //to add new products to database
-                    }
-                    <p>Add new product:</p>
-                    <form>
-                        <label>Product type:</label>
-                        <select id="ptype" onChange={this.handleChange} >
-                        <option value="e-device">E-devices</option>
-                        <option value="clothes">Clothes</option>
-                        <option value="food">Food</option>
-                        <option value="furniture">Furniture</option>
-                        </select><br/>
-                        <label>Product id:</label>
-                        <input type="text" id="pid" name="pid" disabled/><br/>
-                        <label>Product name:</label>
-                        <input type="text" id="pname" name="pname"/><br/>
-                        <label>Product image:</label>
-                        <input type="file" id="pimg" name="pimg" accept="image/*"/><br/>
-                        <label>Product quantity:</label>
-                        <input type="number" id="pno" name="pno" defaultValue="0"/><br/>
-                        <label>Product price(each):</label>
-                        <input type="number" id="pprice" name="pprice" defaultValue="0"/><br/>
-                        <button type="button" className="btn btn-dark mx-1" onClick={this.addNewProduct}>Add</button>
-                        <button type="reset" id="reset" className="btn btn-dark mx-1" onClick={this.get}>Reset</button>
-                    </form>
-                </div>
-                <div className="producList">
-                    {
-                    //shows list of products to be sold
-                    }
-                    <p>List of products:</p>
-                    <Table columns={this.state.columns} data={this.state.productList} delete={this.handleDelete} edit={this.handleEdit} hidden/><br/>
-                    <button type="button" id="addProduct" className="btn btn-dark mx-1" onClick={this.addProduct} hidden>Add</button>
-                </div>
-                {
-                    //Modal
-                }
-            <ModalComponent row={this.state.rowDetails} get={this.get} />
+                <MDBContainer>
+                    <div  className="my-5">
+                    <MDBRow>
+                        <MDBCol md="12">
+                        <MDBCard>
+                            <MDBCardHeader style={{backgroundColor: "black", color: "yellow"}}>
+                                <p className="h4 text-center py-4">Add New Product:</p>
+                            </MDBCardHeader>
+                            <MDBCardBody>
+                            <div className="newProduct">
+                                <form>
+                                    <div className="black-text">
+                                        <label>Product type:</label>
+                                        <select id="ptype" className="browser-default custom-select" onChange={this.handleChange} >
+                                            <option value="e-device">E-devices</option>
+                                            <option value="clothes">Clothes</option>
+                                            <option value="food">Food</option>
+                                            <option value="furniture">Furniture</option>
+                                        </select><br/><br/>
+                                        <label>
+                                        Product Id:
+                                        </label>
+                                        <textarea
+                                        className="form-control"
+                                        id="pid"
+                                        name="pid"
+                                        rows="1"
+                                        disabled
+                                        />
+                                        <MDBInput
+                                            label="Product Name:"
+                                            group
+                                            type="text"
+                                            id="pname"
+                                            name="pname"
+                                        />
+                                        <label>
+                                        Product Image:
+                                        </label>
+                                        <MDBInput
+                                            group
+                                            type="file"
+                                            id="pimg"
+                                            name="pimg"
+                                            accept="image/*"
+                                        />
+                                        <MDBInput
+                                            label="Product quantity:"
+                                            group
+                                            type="number"
+                                            id="pno"
+                                            name="pno"
+                                            min="1"
+                                        />
+                                        <MDBInput
+                                            label="Product price:"
+                                            group
+                                            type="number"
+                                            id="pprice"
+                                            name="pprice"
+                                            min="1"
+                                        />
+                                    </div>
+                                    <div className="text-center py-4 mt-3">
+                                        <button type="button" className="btn btn-dark mx-1" onClick={this.addNewProduct}>Add</button>
+                                        <button type="reset" id="reset" className="btn btn-dark mx-1" onClick={this.get}>Reset</button>
+                                    </div>
+                                </form>
+                            </div>
+                            </MDBCardBody>
+                        </MDBCard>
+                        </MDBCol>
+                    </MDBRow>
+                    </div>
+                </MDBContainer>
             </Fragment>
         );
     }

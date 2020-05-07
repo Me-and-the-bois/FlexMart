@@ -108,7 +108,7 @@ export default class Table extends React.Component {
                                 <label>Product price:</label>
                                 <input type="number" id="mpprice" name="mpprice" defaultValue="0"/><br/>
                                 <button type="button" className="btn btn-dark mx-1" onClick={this.updateProduct}>Update</button>
-                    </form>
+                            </form>
                         </div>
                     </div>
             </Fragment>

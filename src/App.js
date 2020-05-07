@@ -4,6 +4,7 @@ import "./App.css";
 import Login from "../src/Components/auth/Login";
 import welcomePage from "../src/Components/auth/welcomePage";
 import warehouse from "./Components/Warehouse View/warehouse";
+import record from "./Components/Warehouse View/record";
 import delivery from "./Components/Delivery View/delivery";
 import admin from "./Components/Admin View/admin";
 import customer from "./Components/Customer View/customer";
@@ -52,6 +53,7 @@ export default class App extends Component {
             <Route exact path="/admin/dashboard" component={admin} />
             <Route exact path="/delivery/dashboard" component={delivery} />
             <Route exact path="/warehouse/dashboard" component={warehouse} />
+            <Route exact path="/warehouse/record" component={record} />
           </Fragment>
         </Router>
       </div>

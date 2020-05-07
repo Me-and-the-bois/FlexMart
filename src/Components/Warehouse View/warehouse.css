@@ -1,0 +1,10 @@
+.editwh, .delwh {
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    color: white;
+}
+
+td{
+    margin: 4;
+}

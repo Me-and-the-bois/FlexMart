@@ -21,8 +21,18 @@ class navbar extends React.Component {
         } else if(nextProps.type === 'delivery') {
             
         } else if(nextProps.type === 'warehouse') {
-            
-        } else if(nextProps.type === 'admin') {
+            elem = (
+                <span>
+                    <Link to='/warehouse/record'><button type="button" className="btn btn-outline-warning">Record</button></Link>
+                </span>
+            );
+        } else if(nextProps.type === 'warehouserecord') {
+            elem = (
+                <span>
+                    <Link to='/warehouse/dashboard'><button type="button" className="btn btn-outline-warning">Warehouse</button></Link>
+                </span>
+            );
+        }else if(nextProps.type === 'admin') {
             
         } else if(nextProps.type === 'welcome') {
             elem = (

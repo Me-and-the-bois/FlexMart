@@ -1,4 +1,5 @@
 import React from 'react';
+import './warehouse.css';
 
 export default class Table extends React.Component {
     constructor(props) {
@@ -41,8 +42,8 @@ export default class Table extends React.Component {
                                                 return <td key={rowdatakey}><img src={img} width="100" height ="100" alt={row['pname']}/></td>
                                             }
                                         })}
-                                    <td><button type="button" className="btn btn-dark mx-1" onClick= {() => {this.deleteProduct(row)}}>Delete</button></td>
-                                    <td><button type="button" className="btn btn-dark mx-1" onClick= {() => {this.editProduct(row)}}>Edit</button></td>
+                                    <td><button type="button" className="editwh mx-1" onClick= {() => {this.deleteProduct(row)}}><i className="fa fa-remove"></i></button></td>
+                                    <td><button type="button" className="delwh mx-1" onClick= {() => {this.editProduct(row)}}><i className="fa fa-edit"></i></button></td>
                                 </tr>
                                 );
                             })
