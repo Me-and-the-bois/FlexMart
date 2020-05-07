@@ -1,9 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const AdminList = require('../models/employeeData');
-const DeliveryList = require('../models/employeeData');
-const WarehouseList = require('../models/employeeData');
-const CustomerList = require('../models/employeeData');
+const AdminList = require('../models/adminData');
+const DeliverymanList = require('../models/deliverymanData');
+const WarehouseList = require('../models/warehouseData');
+const CustomerList = require('../models/customerData');
+
+router.get('/', (req,res,next) => {
+    console.log('Backend', req.body);
+    res.status(200).json({message: "You are at the admin route!", data: req.body.data});
+})
+
 
 router.get('/adminList/get', (req,res,next) => {
     AdminList.find({})
@@ -13,7 +19,7 @@ router.get('/adminList/get', (req,res,next) => {
 
 })
 
-router.get('/deliveryList/get', (req,res,next) => {
+router.get('/deliverymanList/get', (req,res,next) => {
     DeliveryList.find({})
         .then(data => {
             res.status(201).json({message: "Delivery employee details fetched successfully!!", data: data});
@@ -41,34 +47,35 @@ router.get('/customerList/get', (req,res,next) => {
 router.post('/employee/add', (req,res,next) => {
     console.log('Backend', req.body);
     epost = req.body.epost;
+    
     switch(epost)
     {
         case "Administrator":
             const admin = new AdminList({eid: req.body.eid, ename: req.body.ename,eemail: req.body.eemail,epass: req.body.epass,eaddress: req.body.eaddress,emob: req.body.emob,epost: req.body.epost,esalary: req.body.esalary});
             admin.save().then(result => {
                 console.log(result._id);
-                res.status(201).json({message: "Admin employee list received successfully!!"});
+                res.status(201).json({message: "Admin employee list added successfully!!"});
               });
               break;
         case "Delivery Personnel":
-            const deliv = new DeliveryList({eid: req.body.eid, ename: req.body.ename,eemail: req.body.eemail,epass: req.body.epass,eaddress: req.body.eaddress,emob: req.body.emob,epost: req.body.epost,esalary: req.body.esalary});
+            const deliv = new DeliverymanList({eid: req.body.eid, ename: req.body.ename,eemail: req.body.eemail,epass: req.body.epass,eaddress: req.body.eaddress,emob: req.body.emob,epost: req.body.epost,esalary: req.body.esalary});
             deliv.save().then(result => {
                 console.log(result._id);
-                res.status(201).json({message: "Delivery employee list received successfully!!"});
+                res.status(201).json({message: "Delivery employee list added successfully!!"});
               });
               break;
-        case "Delivery Personnel":
+        case "Warehouse Operator":
             const ware = new WarehouseList({eid: req.body.eid, ename: req.body.ename,eemail: req.body.eemail,epass: req.body.epass,eaddress: req.body.eaddress,emob: req.body.emob,epost: req.body.epost,esalary: req.body.esalary});
             ware.save().then(result => {
                 console.log(result._id);
-                res.status(201).json({message: "Warehouse employee list received successfully!!"});
+                res.status(201).json({message: "Warehouse employee list added successfully!!"});
                 });
                 break;
         default:
             
 
     } 
-
+    
 })
 
 
@@ -83,9 +90,9 @@ router.delete('/adminList/delete', (req,res,next) => {
         })
 })
 
-router.delete('/deliveryList/delete', (req,res,next) => {
+router.delete('/deliverymanList/delete', (req,res,next) => {
     console.log('Delivery Id to be deleted:', req.body.id);
-    DeliveryList.deleteOne({'eid': req.body.id})
+    DeliverymanList.deleteOne({'eid': req.body.id})
         .then((result) => {
             res.status(201).json({message: "Delivery employee deleted successfully!!"});
         },
@@ -119,32 +126,32 @@ router.delete('/customerList/delete', (req,res,next) => {
 
 
 router.put('/adminList/update', (req,res,next) => {
-    console.log('Admin Id to be updated:', req.body.data.data.pid);
-    AdminList.updateOne({'eid': req.body.data.data.eid}, {eid: req.body.eid, ename: req.body.data.data.ename,eemail: req.body.data.data.eemail,epass: req.body.data.data.epass,eaddress: req.body.data.data.eaddress,emob: req.body.data.data.emob,epost: req.body.data.data.epost,esalary: req.body.data.data.esalary}).then(result => {
+    console.log('Admin Id to be updated:', req.body.eid);
+    AdminList.updateOne({'eid': req.body.eid}, {eid: req.body.eid, ename: req.body.ename,eemail: req.body.eemail,epass: req.body.epass,eaddress: req.body.eaddress,emob: req.body.emob,epost: req.body.epost,esalary: req.body.esalary}).then(result => {
         console.log(result._id);
         res.status(201).json({message: "Admin employee updated successfully!!"});
       });
 })
 
 router.put('/warehouseList/update', (req,res,next) => {
-    console.log('Warehouse Id to be updated:', req.body.data.data.pid);
-    WarehouseList.updateOne({'eid': req.body.data.data.eid}, {eid: req.body.eid, ename: req.body.data.data.ename,eemail: req.body.data.data.eemail,epass: req.body.data.data.epass,eaddress: req.body.data.data.eaddress,emob: req.body.data.data.emob,epost: req.body.data.data.epost,esalary: req.body.data.data.esalary}).then(result => {
+    console.log('Warehouse Id to be updated:', req.body.eid);
+    WarehouseList.updateOne({'eid': req.body.eid}, {eid: req.body.eid, ename: req.body.ename,eemail: req.body.eemail,epass: req.body.epass,eaddress: req.body.eaddress,emob: req.body.emob,epost: req.body.epost,esalary: req.body.esalary}).then(result => {
         console.log(result._id);
         res.status(201).json({message: "Warehouse employee updated successfully!!"});
       });
 })
 
-router.put('/deliveryList/update', (req,res,next) => {
-    console.log('Delivery Id to be updated:', req.body.data.data.pid);
-    DeliveryList.updateOne({'eid': req.body.data.data.eid}, {eid: req.body.eid, ename: req.body.data.data.ename,eemail: req.body.data.data.eemail,epass: req.body.data.data.epass,eaddress: req.body.data.data.eaddress,emob: req.body.data.data.emob,epost: req.body.data.data.epost,esalary: req.body.data.data.esalary}).then(result => {
+router.put('/deliverymanList/update', (req,res,next) => {
+    console.log('Delivery Id to be updated:', req.body.eid);
+    DeliverymanList.updateOne({'eid': req.body.eid}, {eid: req.body.eid, ename: req.body.ename,eemail: req.body.eemail,epass: req.body.epass,eaddress: req.body.eaddress,emob: req.body.emob,epost: req.body.epost,esalary: req.body.esalary}).then(result => {
         console.log(result._id);
         res.status(201).json({message: "Delivery employee updated successfully!!"});
       });
 })
 
 router.put('/customerList/update', (req,res,next) => {
-    console.log('Customer Id to be updated:', req.body.data.data.pid);
-    CustomerList.updateOne({'eid': req.body.data.data.eid}, {eid: req.body.eid, ename: req.body.data.data.ename,eemail: req.body.data.data.eemail,epass: req.body.data.data.epass,eaddress: req.body.data.data.eaddress,emob: req.body.data.data.emob,epost: req.body.data.data.epost,esalary: req.body.data.data.esalary}).then(result => {
+    console.log('Customer Id to be updated:', req.body.eid);
+    CustomerList.updateOne({'eid': req.body.eid}, {eid: req.body.eid, ename: req.body.ename,eemail: req.body.eemail,epass: req.body.epass,eaddress: req.body.eaddress,emob: req.body.emob,epost: req.body.epost,esalary: req.body.esalary}).then(result => {
         console.log(result._id);
         res.status(201).json({message: "Customer updated successfully!!"});
       });

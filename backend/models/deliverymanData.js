@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const empSchema = mongoose.Schema({
+const deliverymanSchema = mongoose.Schema({
     eid : {type: String, required: true},
     ename: {type: String, required: true},
     eemail: {type: String, required: true},
@@ -11,4 +11,4 @@ const empSchema = mongoose.Schema({
     esalary: {type: String, required: true}
 });
 
-module.exports = mongoose.model('EmployeeList', empSchema);
+module.exports = mongoose.model('DeliverymanList', deliverymanSchema);
