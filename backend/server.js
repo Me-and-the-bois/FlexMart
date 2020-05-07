@@ -3,6 +3,7 @@ let bodyParser = require('body-parser');
 const warehouseRoutes = require('./routes/warehouse');
 const customerRoutes = require('./routes/customer');
 const deliveryRoutes = require('./routes/delivery');
+const adminRoutes = require('./routes/admin');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -27,6 +28,7 @@ app.use((req,res,next) => {
 app.use('/warehouse', warehouseRoutes);
 app.use('/customer', customerRoutes);
 app.use('/delivery', deliveryRoutes);
+app.use('/admin', adminRoutes);
 app.listen(port, () => {
   console.log(`Listening to requests on http://localhost:${port}`);
 });
