@@ -38,14 +38,13 @@ class Product extends React.Component {
             <Fragment>
                 <form>
                     <div className="card m-2">
-                        <h5 className="card-header align-content:center">Product id: {this.props.dataObj.pid}</h5>
                         <img className="card-img-top m-1" src={this.props.dataObj.pimg} alt={this.props.dataObj.pname}/>
                         <div className="card-body">
                             <h5 className="card-title">{this.props.dataObj.pname}</h5>
                             <p className="card-text">Price: {this.props.dataObj.pprice}</p>
                             <p className="card-text">Available: {this.props.dataObj.pno}</p>
-                            <span>Number:</span>
-                            <input type="number" id={"quantity" + this.props.id} name="quantity" min="1" max={this.props.dataObj.pno} onChange={this.handleChange}/>
+                            <span>Number:</span><br/>
+                            <input type="number" id={"quantity" + this.props.id} name="quantity" min="1" max={this.props.dataObj.pno} onChange={this.handleChange}/><br/>
                             <button type="button" className="btn btn-dark my-1" onClick={this.handleClick}>Add to cart</button>
                             <button type="reset" id={"reset" + this.props.id} hidden>Reset</button>
                         </div>

@@ -1,0 +1,46 @@
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+  margin-top: 2%;
+}
+
+.searchTerm {
+  width: 80%;
+  border: 3px solid black;
+  border-right: none;
+  padding: 5px;
+  height: 50px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color:black;
+  margin-left: 5%;
+}
+
+.searchButton {
+  width: 10%;
+  height: 50px;
+  border: 1px solid black;
+  background:black;
+  text-align: center;
+  color:yellow;
+  border-radius: 0 5px 5px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.searchsuggest {
+  width: 82%;
+  margin-left: 2%;
+  background-color: white;
+  border: 0.5px solid black;
+  transition: 1s ease;
+  text-align: left;
+}
+
+.searchcontainer {
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  list-style-type: none;
+}

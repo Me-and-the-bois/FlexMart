@@ -1,0 +1,26 @@
+.sidebar {
+    position: fixed;
+    display: none;
+    width: 30%; 
+    height: 100%; 
+    top: 0;
+    left: 0;
+    background-color: rgba(1,1,1,0.8);
+    color: white;
+    z-index: 2;
+    cursor: pointer;
+    transition: 1s ease;
+}
+
+.fa-close {
+    float: right;
+    margin: 10px;
+}
+
+.sidebarcontent {
+    margin: 10%;
+}
+
+#pcat, #lower, #higher, #pcat2, #lower2, #higher2, #pcat3, #lower3, #higher3, #pcat4, #lower4, #higher4 {
+    width: 50%;
+}
