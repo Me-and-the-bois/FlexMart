@@ -3,52 +3,46 @@ import axios from 'axios';
 import { MDBContainer, MDBRow, MDBCol, MDBInput, MDBCard, MDBCardBody, MDBCardHeader } from 'mdbreact';
 import Navbar from '../layout/navbar';
 import './warehouse.css';
+import {storage} from '../firebase/index';
 
 export default class warehouse extends React.Component {
     constructor(props){
         super(props);
         this.state = {
             productList: [],
-            rowDetails: {}
+            rowDetails: {},
+            options: ["laptop", "desktop", "phone", "tablet", "tv"]
         };
         this.handleChange = this.handleChange.bind(this);
-        this.get = this.get.bind(this);
+    }
+
+    componentDidMount() {
         this.getData();
     }
 
-    componentDidUpdate() {
-        const cpid = document.getElementById('pid');
-        if(this.state.productList.length > 0) {
-            this.handleChange();
-        } else {
-            cpid.value = 'e' + 1;
-        }
-    }
-
     handleChange() {
-        const nptype = document.getElementById('ptype');
-        const npid = document.getElementById('pid');
-        let type = '';
-        if(nptype.value === 'e-device') {
-            type = 'e';
-        } else if(nptype.value === 'clothes') {
-            type = 'c';
-        } else if(nptype.value === 'furniture') {
-            type = 'h';
-        } else if(nptype.value === 'food') {
-            type = 'f';
+        const nptype = document.getElementById('ptype').value;
+        if(nptype === 'e-device') {
+            const options = ["laptop", "desktop", "phone", "tablet", "tv"];
+            this.setState({
+                options: options
+            });
+        } else if(nptype === 'clothes') {
+            const options = ["men", "women", "children"];
+            this.setState({
+                options: options
+            });
+        } else if(nptype === 'furniture') {
+            const options = ["bed", "storage", "sofa", "tablechair"];
+            this.setState({
+                options: options
+            });
+        } else if(nptype === 'food') {
+            const options = ["snacks", "liquid", "can", "packaged"];
+            this.setState({
+                options: options
+            });
         }
-        let max = 0;
-        for(let i = 0;i<this.state.productList.length;i++) {
-            if(this.state.productList[i].pid.charAt(0) === type){
-                let num = this.state.productList[i].pid.slice(1,this.state.productList[i].pid.length);
-                if(Number(num) > max){
-                    max = Number(num);
-                }
-            }
-        }
-        max++;
-        npid.value = type + max;
     }
 
     getData() {
@@ -56,7 +50,6 @@ export default class warehouse extends React.Component {
             .then(res => {
                 console.log('Data from backend', res.data);
                 const tempList = res.data.data.map(obj => {
-                    delete obj._id;
                     delete obj.__v;
                     return obj;
                 })
@@ -67,33 +60,41 @@ export default class warehouse extends React.Component {
             });
     }
 
-    get() {
-        this.getData();
-    }
+
     addNewProduct = e => {
         e.preventDefault();
         console.log("Add button clicked!!");
         const ptype = document.getElementById('ptype').value;
-        const pid = document.getElementById('pid').value;
+        const pcategory = document.getElementById('pcategory').value;
         const pname = document.getElementById('pname').value;
         let pimg = document.getElementById('pimg').files[0];
         const pno = document.getElementById('pno').value;
         const pprice = document.getElementById('pprice').value;
-        if(pid&&pname&&pimg&&pno&&pprice) {
+        const pdiscount = document.getElementById('pdiscount').value;
+        const pdesc = document.getElementById('pdesc').value;
+        if(pname&&pimg&&pno&&pprice&&pdesc) {
             console.log("New product added!!");
             //send to database
-            const reader = new FileReader();
-            reader.readAsDataURL(pimg);
-            reader.onloadend = () => {
-                pimg = reader.result;
-                const productData = {pimg,ptype,pid,pname,pno,pprice};
-                axios.post("http://localhost:5000/warehouse/productList/add", productData)
-                    .then(res => {
-                        console.log(res.data.message);
-                        document.getElementById('reset').click();
-                        this.getData();
-                    });
-            }
+            const uploadTask = storage.ref(`images/${pimg.name}`).put(pimg);
+            uploadTask.on('state_changed', 
+            (snapshot) => {},
+            (error) => {
+                console.log('Firebase image upload error', error);
+                this.notifyB('Error');
+            },
+            () => {
+                storage.ref('images').child(pimg.name).getDownloadURL()
+                    .then(url => {
+                        console.log('URL', url);
+                        const productData = {pimg: url,ptype,pcategory,pname,pno,pprice,pdiscount,pdesc};
+                        axios.post("http://localhost:5000/warehouse/productList/add", productData)
+                            .then(res => {
+                                console.log(res.data.message);
+                                document.getElementById('reset').click();
+                                this.getData();
+                            });
+                    })
+            });
         } else {
             console.log("Form empty!!");
         }
@@ -116,24 +117,24 @@ export default class warehouse extends React.Component {
                                 <form>
                                     <div className="black-text">
                                         <label>Product type:</label>
-                                        <select id="ptype" className="browser-default custom-select" onChange={this.handleChange} >
-                                            <option value="e-device">E-devices</option>
+                                        <select id="ptype" className="browser-default custom-select" onChange={this.handleChange}>
+                                            <option value="e-device" defaultValue>E-devices</option>
                                             <option value="clothes">Clothes</option>
                                             <option value="food">Food</option>
                                             <option value="furniture">Furniture</option>
                                         </select><br/><br/>
-                                        <label>
-                                        Product Id:
-                                        </label>
-                                        <textarea
-                                        className="form-control"
-                                        id="pid"
-                                        name="pid"
-                                        rows="1"
-                                        disabled
-                                        />
+                                        <label>Product category:</label>
+                                        <select id="pcategory" className="browser-default custom-select">
+                                        {
+                                            this.state.options.map(elem => {
+                                                return (
+                                                    <option value={elem} key={elem}>{elem}</option>
+                                                )
+                                            })
+                                        }  
+                                        </select>
                                         <MDBInput
-                                            label="Product Name:"
+                                            label="Product name:"
                                             group
                                             type="text"
                                             id="pname"
@@ -142,13 +143,14 @@ export default class warehouse extends React.Component {
                                         <label>
                                         Product Image:
                                         </label>
-                                        <MDBInput
-                                            group
-                                            type="file"
-                                            id="pimg"
-                                            name="pimg"
-                                            accept="image/*"
-                                        />
+                                        <div>
+                                            <input
+                                                type="file"
+                                                id="pimg"
+                                                name="pimg"
+                                                accept="image/*"
+                                                />
+                                        </div>
                                         <MDBInput
                                             label="Product quantity:"
                                             group
@@ -164,6 +166,22 @@ export default class warehouse extends React.Component {
                                             id="pprice"
                                             name="pprice"
                                             min="1"
+                                        />
+                                        <MDBInput
+                                            label="Product discount:"
+                                            group
+                                            type="number"
+                                            id="pdiscount"
+                                            name="pdiscount"
+                                            min="1"
+                                        /><br/>
+                                        <label>
+                                        Product description:
+                                        </label>
+                                        <textarea
+                                        className="form-control"
+                                        id="pdesc"
+                                        rows="5"
                                         />
                                     </div>
                                     <div className="text-center py-4 mt-3">

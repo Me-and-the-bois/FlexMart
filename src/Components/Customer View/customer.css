@@ -1,8 +1,3 @@
-.upper {
-    padding-top: 10%;
-    padding-bottom: 5%;
-}
-
 .edevice {
     background-color: orange;
 }
@@ -21,4 +16,6 @@
 
 .card {
     color: black;
+    height: 100%;
+    cursor: pointer;
 }

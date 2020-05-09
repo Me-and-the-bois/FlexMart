@@ -3,25 +3,30 @@ import ReactDOM from 'react-dom';
 import Axios from 'axios';
 import Product from './product';
 import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 import rootReducer from '../../reducers/rootReducer';
 import Navbar from '../layout/navbar';
 import './searchbox.css';
 import './sidebar.css';
+import './product.css';
+
 export default class furniture extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             dataList: [],
             pnamelist: [],
-            //,pdesclist: []
-            suggestions: []
+            pdesclist: [],
+            suggestions: [],
+            modalobj: {}
         };
         this.filter = this.filter.bind(this);
         this.sortData = this.sortData.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.search = this.search.bind(this);
         this.handleKeyUp = this.handleKeyUp.bind(this);
+        this.productmodal = this.productmodal.bind(this);
+        this.handleNumberChange = this.handleNumberChange.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -43,14 +48,14 @@ export default class furniture extends React.Component {
     sortData() {
         const temp = this.state.dataList;
         const tempname = [];
-        //const tempdesc = [];
+        const tempdesc = [];
         temp.forEach(obj => {
             tempname.push(obj.pname);
-            //tempdesc.push(obj.pdesc);
+            tempdesc.push(obj.pdesc);
         });
         this.setState({
-            pnamelist: tempname
-            //,pdesclist: tempdesc
+            pnamelist: tempname,
+            pdesclist: tempdesc
         });
     }
 
@@ -58,7 +63,7 @@ export default class furniture extends React.Component {
         const n = this.state.dataList.length;
         let count = 0;
         const rowElem = document.createElement('div');
-        rowElem.setAttribute('class', 'row my-3');
+        rowElem.setAttribute('class', 'row my-1');
         for(let i=0;i<n ;i++){
             const colElem = document.createElement('div');
             colElem.setAttribute('class', 'col-3');
@@ -68,9 +73,8 @@ export default class furniture extends React.Component {
             document.getElementById('container3').appendChild(rowElem);
             if(count === n) break;
         }
-        const store = createStore(rootReducer);
         for(let i=0;i<n;i++) {
-            ReactDOM.render(<Provider store={store}><Product dataObj={this.state.dataList[i]} id={i}/></Provider>, document.getElementById('prod3'+i));
+            ReactDOM.render(<Product dataObj={this.state.dataList[i]} id={i} modalview={this.productmodal}/>, document.getElementById('prod3'+i));
         }
     }
 
@@ -83,7 +87,17 @@ export default class furniture extends React.Component {
     }
 
     filter() {
-        // const pcat = document.getElementById('pcat').value;
+        const pcat = document.getElementById('pcat3').value;
+        const radioasc = document.getElementById('asc2');
+        const radiodesc = document.getElementById('desc2');
+        let order = '';
+        if(radioasc.checked) {
+            order = 'asc';
+        } else if (radiodesc.checked) {
+            order = 'desc';
+        } else {
+            order = '';
+        }
         let lower = document.getElementById('lower3').value;
         let higher = document.getElementById('higher3').value;
         let temp = [];
@@ -94,7 +108,7 @@ export default class furniture extends React.Component {
         if(!higher) {
             this.state.dataList.forEach(obj => {
                 console.log((Number(obj.pprice)));
-                if(Number(obj.pprice) >= lower) {
+                if(Number(obj.pprice) >= lower && pcat === obj.pcategory) {
                     temp.push(obj);
                     console.log(temp);
                 } 
@@ -102,11 +116,19 @@ export default class furniture extends React.Component {
         } else {
             this.state.dataList.forEach(obj => {
                 console.log((Number(obj.pprice)));
-                if((Number(obj.pprice) >= lower)&&(Number(obj.pprice) <= higher)) {
+                if((Number(obj.pprice) >= lower)&&(Number(obj.pprice) <= higher) && pcat === obj.pcategory) {
                     temp.push(obj);
                     console.log(temp);
                 }
             });
+        }
+        console.log(order);
+        if(order === 'asc') {
+            temp.sort((a,b) => (a.ppricenew > b.ppricenew) ? 1 : ((a.ppricenew < b.ppricenew) ? -1 : 0));
+        } else if(order === 'desc') {
+            temp.sort((a,b) => (a.ppricenew < b.ppricenew) ? 1 : ((a.ppricenew > b.ppricenew) ? -1 : 0));
+        } else {
+            
         }
         console.log(temp);
         this.closeSideBar();
@@ -118,7 +140,7 @@ export default class furniture extends React.Component {
         const n = data.length;
         let count = 0;
         const rowElem = document.createElement('div');
-        rowElem.setAttribute('class', 'row my-3');
+        rowElem.setAttribute('class', 'row my-1');
         for(let i=0;i<n ;i++){
             const colElem = document.createElement('div');
             colElem.setAttribute('class', 'col-3');
@@ -128,10 +150,22 @@ export default class furniture extends React.Component {
             document.getElementById('container3').appendChild(rowElem);
             if(count === n) break;
         }
-        const store = createStore(rootReducer);
         for(let i=0;i<n;i++) {
-            ReactDOM.render(<Provider store={store}><Product dataObj={data[i]} id={i}/></Provider>, document.getElementById('filtprod3'+i));
+            ReactDOM.render(<Product dataObj={data[i]} id={i} modalview={this.productmodal}/>, document.getElementById('filtprod3'+i));
         }
+    }
+
+    productmodal(obj) {
+        const modal = document.getElementById("furnitureproductModal");
+        modal.style.display = "block";
+        this.setState({
+            modalobj: obj
+        });
+    }
+
+    handleClose = () => {
+        const modal = document.getElementById("furnitureproductModal");
+        modal.style.display = "none";
     }
 
     handleKeyUp(e) {
@@ -155,21 +189,23 @@ export default class furniture extends React.Component {
             return;
         }
         let suggestedvalues = [];
-        //const tempdesc = this.state.pdesclist;
+        const tempdesc = this.state.pdesclist;
         let key,value;
         for(key in tempname) {
-            value = tempname[key];
-            console.log(value, value.indexOf(inputval));
+            if(suggestedvalues.length <=5) {
+                value = tempname[key];
+                console.log(value, value.indexOf(inputval));
+                if(value.toLowerCase().indexOf(inputval) > -1) {
+                    suggestedvalues.push(value);
+                }
+            }
+        } 
+        if(suggestedvalues.length <=5) {
+            value = tempdesc[key];
             if(value.toLowerCase().indexOf(inputval) > -1) {
                 suggestedvalues.push(value);
             }
         } 
-        // for(key in tempdesc) {
-        //     value = tempdesc[key];
-        //     if(value.includes(inputval)) {
-        //         suggestedvalues.push(value);
-        //     }
-        // } 
         this.setState({
             suggestions: [...suggestedvalues]
         });
@@ -190,12 +226,29 @@ export default class furniture extends React.Component {
         });
     }
 
+    handleNumberChange(e) {
+        console.log(e.target.value);
+        // eslint-disable-next-line react/no-direct-mutation-state
+        this.state.modalobj.pno = e.target.value;
+    }
+
+    handleClick() {
+        if(document.getElementById('furniturequantity' + this.state.modalobj._id).value) {
+            console.log(document.getElementById('furniturequantity' + this.state.modalobj._id).value);
+            const store = createStore(rootReducer);
+            store.dispatch({type: 'ADD_TO_CART', object: this.state.modalobj});
+            document.getElementById('furniturereset' + this.state.modalobj._id).click();
+        } else {
+            console.log("Enter the number of products you want to buy!!");
+        }
+    }
+
     render() {
         return(
             <Fragment>
                 <Navbar type='customer'/>
                 <div className="search">
-                    <input type="text" className="searchTerm" placeholder="What are you looking for?" onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
+                    <input type="text" className="searchTerm" placeholder="What are you looking for?" onChange={this.handleChange} onKeyUp={this.handleKeyUp} id={"furnituresearch" + this.state.modalobj._id}/>
                     <button type="button" className="searchButton" onClick={this.handleSideBar}>
                         Filter
                     </button>
@@ -223,11 +276,10 @@ export default class furniture extends React.Component {
                         <label>Product category:</label><br/>
                         <select id="pcat3">
                             <option value="all">All</option>
-                            <option value="laptop">Laptop</option>
-                            <option value="desktop">Desktop</option>
-                            <option value="phone">Mobile Phone</option>
-                            <option value="tablet">Tablets</option>
-                            <option value="tv">Television</option>
+                            <option value="bed">Bed</option>
+                            <option value="storage">Storage</option>
+                            <option value="sofa">Sofa</option>
+                            <option value="tablechair">Table-Chair</option>
                         </select><br/>
                         <label>Price range:</label><br/>
                         <input type="number" id="lower3" min="0"/> -> Lower<br/><br/>
@@ -235,6 +287,35 @@ export default class furniture extends React.Component {
                         <button type="button" className="btn btn-light" onClick={this.filter}>Search</button>
                     </div>
                 </span>
+                <div id="furnitureproductModal" className="modal">
+                    <div className="modal-content">
+                        <div className="closecontainer">
+                            <div className="heading"><h5>{this.state.modalobj.pname} </h5></div>
+                            <div id="close" className="close" onClick={this.handleClose}>&times;</div>
+                        </div>
+                        <form>
+                            <div className="rowcontainer">
+                                <div className="side">
+                                    <img className="" src={this.state.modalobj.pimg} alt={this.state.modalobj.pname}/>
+                                </div>
+                                <div className="main">
+                                    <div className="m-4 body">
+                                        <label className="discprice px-1">Rs.{this.state.modalobj.ppricenew} </label>
+                                        <label className="discount px-1">{this.state.modalobj.pdiscount}% </label>
+                                        <label className="price">{this.state.modalobj.pprice} </label><br/>
+                                        <label>Available: {this.state.modalobj.pno}</label><br/>
+                                        <label>Product description:</label><br/>
+                                        <p>{this.state.modalobj.pdesc}</p>
+                                        <label>Number:</label><br/>
+                                        <input type="number" id={"furniturequantity" + this.state.modalobj._id} name="quantity" min="1" max={this.state.modalobj.pno} onChange={this.handleNumberChange}/><br/>
+                                        <button type="button" className="btn btn-dark my-1" id={"furniturecart" + this.state.modalobj._id} onClick={this.handleClick}>Add to cart</button>
+                                        <button type="reset" id={"furniturereset" + this.state.modalobj._id} hidden>Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
                 <span id="container3" className="container"></span>
             </Fragment>
         );

@@ -10,7 +10,7 @@ class customer extends React.Component {
             <Fragment>
                 <Navbar type='customer'/>
                 <div className="container">
-                    <div className="row m-3 upper">
+                    <div className="row m-3">
                         <div className="col-sm-6">
                             {/* <Link to='/customer/dashboard/e-devices'> */}
                                 <div className="card edevice" onClick={() => {

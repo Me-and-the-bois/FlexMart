@@ -40,8 +40,32 @@ class navbar extends React.Component {
                     <Link to='/'><button type="button" className="btn btn-outline-warning">Flex Mart</button></Link>
                 </span>
             );
+        } else if(nextProps.type === 'productdispedevice') {
+            elem = (
+                <span>
+                    <Link to='/customer/dashboard/e-devices'><button type="button" className="btn btn-outline-warning">Products</button></Link>
+                </span>
+            );
+        } else if(nextProps.type === 'productdispclothes') {
+            elem = (
+                <span>
+                    <Link to='/customer/dashboard/clothes'><button type="button" className="btn btn-outline-warning">Products</button></Link>
+                </span>
+            );
         }
-        return {
+        else if(nextProps.type === 'productdispfurniture') {
+            elem = (
+                <span>
+                    <Link to='/customer/dashboard/furniture'><button type="button" className="btn btn-outline-warning">Products</button></Link>
+                </span>
+            );
+        } else if(nextProps.type === 'productdispfood') {
+            elem = (
+                <span>
+                    <Link to='/customer/dashboard/food'><button type="button" className="btn btn-outline-warning">Products</button></Link>
+                </span>
+            );
+        }       return {
             custelem: elem
         };
     }

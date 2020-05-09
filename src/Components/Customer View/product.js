@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import {connect} from 'react-redux';
+import './product.css';
 
 class Product extends React.Component {
     constructor(props) {
@@ -9,11 +9,17 @@ class Product extends React.Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleModal = this.handleModal.bind(this);
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        const disc = Number(nextProps.dataObj.pdiscount);
+        const price = Number(nextProps.dataObj.pprice);
+        let newprice = Math.floor(price - (price * disc)/100);
+        let tempobj = nextProps.dataObj;
+        tempobj.ppricenew = newprice;
         return {
-            obj: nextProps.dataObj
+            obj: tempobj
         };
     }
 
@@ -33,32 +39,29 @@ class Product extends React.Component {
         }
     }
 
+    handleModal() {
+        this.props.modalview(this.state.obj);
+    }
+
     render() {
         return(
             <Fragment>
                 <form>
-                    <div className="card m-2">
-                        <img className="card-img-top m-1" src={this.props.dataObj.pimg} alt={this.props.dataObj.pname}/>
-                        <div className="card-body">
-                            <h5 className="card-title">{this.props.dataObj.pname}</h5>
-                            <p className="card-text">Price: {this.props.dataObj.pprice}</p>
-                            <p className="card-text">Available: {this.props.dataObj.pno}</p>
-                            <span>Number:</span><br/>
-                            <input type="number" id={"quantity" + this.props.id} name="quantity" min="1" max={this.props.dataObj.pno} onChange={this.handleChange}/><br/>
-                            <button type="button" className="btn btn-dark my-1" onClick={this.handleClick}>Add to cart</button>
-                            <button type="reset" id={"reset" + this.props.id} hidden>Reset</button>
+                    <div className="container-fluid body" onClick={this.handleModal}>
+                        <img src={this.state.obj.pimg} alt={this.state.obj.pname} className="img-responsive"/>
+                        <div>
+                            <p className="name">{this.state.obj.pname} </p>
+                            <label className="number px-1">Available: {this.state.obj.pno} </label><br/>
+                            <label className="discprice px-1">Rs.{this.state.obj.ppricenew} </label>
+                            <label className="discount px-1">{this.state.obj.pdiscount}% </label>
+                            <label className="price">{this.state.obj.pprice} </label>
                         </div>
-                    </div>
+                        
+                    </div> 
                 </form>
             </Fragment>
         );
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-      addToCart: (obj) => dispatch({type: 'ADD_TO_CART', object: obj})
-    }
-}
-
-export default connect(null, mapDispatchToProps)(Product);
+export default Product;

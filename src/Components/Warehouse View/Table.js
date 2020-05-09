@@ -24,30 +24,28 @@ export default class Table extends React.Component {
     }
     render(){
         return(
-            <table>
-                <thead>
-                    <tr>
-                        {this.state.columns.map(data => <th key={data}>{data}</th>)}
-                    </tr>
-                </thead>
+            <table id="t01">
                 <tbody>
-                    {this.state.data.map(row => {
-                                return(
-                                <tr key={Object.values(row)[2]}>
-                                    {Object.keys(row).map(rowdatakey => {
-                                            if(rowdatakey !== 'pimg')
-                                            return <td key={rowdatakey}>{row[rowdatakey]}</td>
-                                            else {
-                                                const img = row[rowdatakey];
-                                                return <td key={rowdatakey}><img src={img} width="100" height ="100" alt={row['pname']}/></td>
-                                            }
-                                        })}
-                                    <td><button type="button" className="editwh mx-1" onClick= {() => {this.deleteProduct(row)}}><i className="fa fa-remove"></i></button></td>
-                                    <td><button type="button" className="delwh mx-1" onClick= {() => {this.editProduct(row)}}><i className="fa fa-edit"></i></button></td>
-                                </tr>
-                                );
-                            })
-                    }
+                <tr>
+                    {this.state.columns.map(data => <th key={data}>{data}</th>)}
+                </tr>
+                {this.state.data.map(row => {
+                            return(
+                            <tr key={row._id}>
+                                {Object.keys(row).map(rowdatakey => {
+                                        if(rowdatakey !== 'pimg')
+                                        return <td key={rowdatakey}>{row[rowdatakey]}</td>
+                                        else {
+                                            const img = row[rowdatakey];
+                                            return <td key={rowdatakey}><img src={img} width="100" height ="100" alt={row['pname']}/></td>
+                                        }
+                                    })}
+                                <td><button type="button" className="editwh mx-1" onClick= {() => {this.deleteProduct(row)}}><i className="fa fa-remove"></i></button></td>
+                                <td><button type="button" className="delwh mx-1" onClick= {() => {this.editProduct(row)}}><i className="fa fa-edit"></i></button></td>
+                            </tr>
+                            );
+                        })
+                }
                 </tbody>
             </table>
         );

@@ -27,7 +27,7 @@ class Cart extends React.Component {
         }
         let tempList = this.props.productList;
         tempList = tempList.map((obj) => {
-            obj.tprice = Number(obj.pprice) * Number(obj.pno);
+            obj.tprice = Number(obj.ppricenew) * Number(obj.pno);
             return obj;
         })
         this.setState({
@@ -140,10 +140,10 @@ class Cart extends React.Component {
                                         <div className="col-sm-4"><img src={obj.pimg} alt={obj.pname}/></div>
                                         <div className="col-sm-8">
                                             <p className="lead">Product Name: {obj.pname}</p>
-                                            <p className="lead">Product Price: {obj.pprice}</p>
+                                            <p className="lead">Product Price: {obj.ppricenew}</p>
                                             <p className="lead">Number of items bought: {obj.pno}</p>
                                             <p className="lead">Total Price:</p>
-                                            <input type="number" id="price" name="price" min="1" max="8" value={obj.tprice} readOnly/><br/><br/>
+                                            <input type="text" id={"price" + obj._id} name="price" value={obj.tprice} readOnly/><br/><br/>
                                             <button type="button" className="btn btn-danger" onClick={() => {this.handleClick(obj)}}>Remove</button>
                                         </div>
                                     </div>

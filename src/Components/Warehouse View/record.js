@@ -9,13 +9,17 @@ export default class warehouse extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            columns: ["PIMAGE","PTYPE","PID","PNAME","PNO","PPRICE"],
+            columns: ["PIMAGE","PTYPE","PCATEGORY","PID","PNAME","PNO","PPRICE","PDISCOUNT","PDESC","DELETE","EDIT"],
             productList: [],
             rowDetails: {}
         };
         this.handleDelete = this.handleDelete.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
+        this.getData = this.getData.bind(this);
         this.get = this.get.bind(this);
+    }
+
+    componentDidMount() {
         this.getData();
     }
 
@@ -28,12 +32,15 @@ export default class warehouse extends React.Component {
         }
     }
 
+    get() {
+        this.getData();
+    }
+
     getData() {
         axios.get("http://localhost:5000/warehouse")
             .then(res => {
                 console.log('Data from backend', res.data);
                 const tempList = res.data.data.map(obj => {
-                    delete obj._id;
                     delete obj.__v;
                     return obj;
                 })
@@ -42,10 +49,6 @@ export default class warehouse extends React.Component {
                     productList: tempList
                 });
             });
-    }
-
-    get() {
-        this.getData();
     }
 
     addProduct = e => {
@@ -89,7 +92,7 @@ export default class warehouse extends React.Component {
     
     handleDelete(row) {
         console.log("Delete!!", row);
-        axios.delete("http://localhost:5000/warehouse/productList/delete", {data: {id: row.pid}})
+        axios.delete("http://localhost:5000/warehouse/productList/delete", {data: {id: row._id}})
             .then(res => {
                 console.log(res.data.message);
                 this.getData();
@@ -108,7 +111,7 @@ export default class warehouse extends React.Component {
         return(
             <Fragment>
                 <Navbar type='warehouserecord'/>
-                <div className="producList">
+                <div className="productList">
                     <Table columns={this.state.columns} data={this.state.productList} delete={this.handleDelete} edit={this.handleEdit} hidden/><br/>
                     <button type="button" id="addProduct" className="btn btn-dark mx-1" onClick={this.addProduct} hidden>Add</button>
                 </div>

@@ -11,7 +11,7 @@ router.post('/productList/edevice/add', (req,res,next) => {
     EdeviceList.remove({})
         .then((response) => {
             for(let i=0;i<req.body.length;i++) {
-                const product = new EdeviceList({pimg: req.body[i].pimg,ptype: req.body[i].ptype,pid: req.body[i].pid,pname: req.body[i].pname,pno: req.body[i].pno,pprice: req.body[i].pprice});
+                const product = new EdeviceList({pimg: req.body[i].pimg,ptype: req.body[i].ptype,pcategory: req.body[i].pcategory,pname: req.body[i].pname,pno: req.body[i].pno,pprice: req.body[i].pprice,pdiscount: req.body[i].pdiscount,pdesc: req.body[i].pdesc,preview:[]});
                 product.save().then(result => {
                     console.log(result._id);
                   });
@@ -27,7 +27,7 @@ router.post('/productList/food/add', (req,res,next) => {
     FoodList.remove({})
         .then((response) => {
             for(let i=0;i<req.body.length;i++) {
-                const product = new FoodList({pimg: req.body[i].pimg,ptype: req.body[i].ptype,pid: req.body[i].pid,pname: req.body[i].pname,pno: req.body[i].pno,pprice: req.body[i].pprice});
+                const product = new FoodList({pimg: req.body[i].pimg,ptype: req.body[i].ptype,pcategory: req.body[i].pcategory,pname: req.body[i].pname,pno: req.body[i].pno,pprice: req.body[i].pprice,pdiscount: req.body[i].pdiscount,pdesc: req.body[i].pdesc,preview:[]});
                 product.save().then(result => {
                     console.log(result._id);
                   });
@@ -43,7 +43,7 @@ router.post('/productList/furniture/add', (req,res,next) => {
     FurnitureList.remove({})
         .then((response) => {
             for(let i=0;i<req.body.length;i++) {
-                const product = new FurnitureList({pimg: req.body[i].pimg,ptype: req.body[i].ptype,pid: req.body[i].pid,pname: req.body[i].pname,pno: req.body[i].pno,pprice: req.body[i].pprice});
+                const product = new FurnitureList({pimg: req.body[i].pimg,ptype: req.body[i].ptype,pcategory: req.body[i].pcategory,pname: req.body[i].pname,pno: req.body[i].pno,pprice: req.body[i].pprice,pdiscount: req.body[i].pdiscount,pdesc: req.body[i].pdesc,preview:[]});
                 product.save().then(result => {
                     console.log(result._id);
                   });
@@ -59,7 +59,7 @@ router.post('/productList/clothes/add', (req,res,next) => {
     ClothesList.remove({})
         .then((response) => {
             for(let i=0;i<req.body.length;i++) {
-                const product = new ClothesList({pimg: req.body[i].pimg,ptype: req.body[i].ptype,pid: req.body[i].pid,pname: req.body[i].pname,pno: req.body[i].pno,pprice: req.body[i].pprice});
+                const product = new ClothesList({pimg: req.body[i].pimg,ptype: req.body[i].ptype,pcategory: req.body[i].pcategory,pname: req.body[i].pname,pno: req.body[i].pno,pprice: req.body[i].pprice,pdiscount: req.body[i].pdiscount,pdesc: req.body[i].pdesc,preview:[]});
                 product.save().then(result => {
                     console.log(result._id);
                   });
