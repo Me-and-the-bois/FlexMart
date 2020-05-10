@@ -218,6 +218,8 @@ export default class furniture extends React.Component {
         this.state.dataList.forEach(obj => {
             if(obj.pname === name) {
                 templist.push(obj);
+            } else if(obj.pdesc === name){
+                templist.push(obj);
             }
         });
         this.displayfiltereddata(templist);
@@ -247,7 +249,7 @@ export default class furniture extends React.Component {
         return(
             <Fragment>
                 <Navbar type='customer'/>
-                <div className="search">
+                <div className="search my-0">
                     <input type="text" className="searchTerm" placeholder="What are you looking for?" onChange={this.handleChange} onKeyUp={this.handleKeyUp} id={"furnituresearch" + this.state.modalobj._id}/>
                     <button type="button" className="searchButton" onClick={this.handleSideBar}>
                         Filter

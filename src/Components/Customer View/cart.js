@@ -5,12 +5,14 @@ import {withRouter} from 'react-router-dom';
 import rootReducer from '../../reducers/rootReducer';
 import Axios from 'axios';
 import Navbar from '../layout/navbar';
+import './cart.css';
 
 class Cart extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            productList: []
+            productList: [],
+            totalprice: 0
         };
         this.handleClick = this.handleClick.bind(this);
         this.buy = this.buy.bind(this);
@@ -19,19 +21,20 @@ class Cart extends React.Component {
 
     componentDidMount() {
         if(this.props.productList.length) {
-            document.getElementById('buy').hidden = false;
-            document.getElementById('reset').hidden = false;
+            document.getElementById('topcart').hidden = false;
         } else {
-            document.getElementById('buy').hidden = true;
-            document.getElementById('reset').hidden = true;
+            document.getElementById('topcart').hidden = true;
         }
         let tempList = this.props.productList;
+        let totalprice = 0;
         tempList = tempList.map((obj) => {
             obj.tprice = Number(obj.ppricenew) * Number(obj.pno);
+            totalprice += obj.tprice;
             return obj;
         })
         this.setState({
-            productList: tempList
+            productList: tempList,
+            totalprice: totalprice
         });
     }
 
@@ -41,19 +44,20 @@ class Cart extends React.Component {
         const store = createStore(rootReducer);
         console.log('Central State', store.getState());
         if(store.getState().productList.length) {
-            document.getElementById('buy').hidden = false;
-            document.getElementById('reset').hidden = false;
+            document.getElementById('topcart').hidden = false;
         } else {
-            document.getElementById('buy').hidden = true;
-            document.getElementById('reset').hidden = true;
+            document.getElementById('topcart').hidden = true;
         }
         let tempList = store.getState().productList;
+        let totalprice = 0;
         tempList = tempList.map((obj) => {
             obj.tprice = Number(obj.pprice) * Number(obj.pno);
+            totalprice += obj.tprice;
             return obj;
         })
         this.setState({
-            productList: tempList
+            productList: tempList,
+            totalprice: totalprice
         });
     }
 
@@ -115,11 +119,9 @@ class Cart extends React.Component {
         const store = createStore(rootReducer);
         console.log('Central State', store.getState());
         if(store.getState().productList.length) {
-            document.getElementById('buy').hidden = false;
-            document.getElementById('reset').hidden = false;
+            document.getElementById('topcart').hidden = false;
         } else {
-            document.getElementById('buy').hidden = true;
-            document.getElementById('reset').hidden = true;
+            document.getElementById('topcart').hidden = true;
         }
         this.setState({
             productList: store.getState().productList
@@ -130,6 +132,11 @@ class Cart extends React.Component {
         return(
             <Fragment>
                 <Navbar type='customer'/>
+                <div className="topcart m-2" id="topcart" hidden>
+                    <p>Total price: {this.state.totalprice}</p>
+                    <button type="button" id="buy" className="btn btn-dark m-1" onClick={this.buy}>Buy</button>
+                    <button type="button" id="reset" className="btn btn-dark m-1" onClick={this.remove}>Clear Cart</button>
+                </div>
                 <div>
                 {
                     this.state.productList.map((obj) => {
@@ -142,7 +149,7 @@ class Cart extends React.Component {
                                             <p className="lead">Product Name: {obj.pname}</p>
                                             <p className="lead">Product Price: {obj.ppricenew}</p>
                                             <p className="lead">Number of items bought: {obj.pno}</p>
-                                            <p className="lead">Total Price:</p>
+                                            <p className="lead">Price:</p>
                                             <input type="text" id={"price" + obj._id} name="price" value={obj.tprice} readOnly/><br/><br/>
                                             <button type="button" className="btn btn-danger" onClick={() => {this.handleClick(obj)}}>Remove</button>
                                         </div>
@@ -154,8 +161,6 @@ class Cart extends React.Component {
                     
                 }
                 </div>
-                <button type="button" id="buy" className="btn btn-dark m-1" onClick={this.buy} hidden>Buy</button>
-                <button type="button" id="reset" className="btn btn-dark m-1" onClick={this.remove} hidden>Clear Cart</button>
             </Fragment>
         );
     }

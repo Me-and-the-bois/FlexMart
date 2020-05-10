@@ -9,7 +9,7 @@ export default class warehouse extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            columns: ["PIMAGE","PTYPE","PCATEGORY","PID","PNAME","PNO","PPRICE","PDISCOUNT","PDESC","DELETE","EDIT"],
+            columns: ["PID","PIMAGE","PTYPE","PCATEGORY","PNAME","PNO","PPRICE","PDISCOUNT","PDESC","DELETE","EDIT"],
             productList: [],
             rowDetails: {}
         };
@@ -113,7 +113,9 @@ export default class warehouse extends React.Component {
                 <Navbar type='warehouserecord'/>
                 <div className="productList">
                     <Table columns={this.state.columns} data={this.state.productList} delete={this.handleDelete} edit={this.handleEdit} hidden/><br/>
-                    <button type="button" id="addProduct" className="btn btn-dark mx-1" onClick={this.addProduct} hidden>Add</button>
+                    <div className="addbutton">
+                        <button type="button" id="addProduct" className="btn btn-dark mx-1" onClick={this.addProduct} hidden>Add</button>
+                    </div>
                 </div>
             <ModalComponent row={this.state.rowDetails} get={this.get} />
             </Fragment>
