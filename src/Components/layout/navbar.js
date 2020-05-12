@@ -33,8 +33,21 @@ class navbar extends React.Component {
                 </span>
             );
         }else if(nextProps.type === 'admin') {
-            
-        } else if(nextProps.type === 'welcome') {
+            elem = (
+                <span>
+                    <Link to='/admin/dashboard/customerrecord'><button type="button" className="btn btn-outline-warning">Customer</button></Link>
+                    <Link to='/admin/dashboard/adminrecord'><button type="button" className="btn btn-outline-warning">Admin</button></Link>
+                    <Link to='/admin/dashboard/deliveryrecord'><button type="button" className="btn btn-outline-warning">Delivery</button></Link>
+                    <Link to='/admin/dashboard/warehouserecord'><button type="button" className="btn btn-outline-warning">Warehouse</button></Link>
+                </span>
+            );
+        } else if(nextProps.type === 'adminrecordadmin' || nextProps.type === 'adminrecordwarehouse' || nextProps.type === 'adminrecorddelivery' || nextProps.type === 'adminrecordcustomer') {
+            elem = (
+                <span>
+                    <Link to='/admin/dashboard'><button type="button" className="btn btn-outline-warning">Dashboard</button></Link>
+                </span>
+            );
+        }else if(nextProps.type === 'welcome') {
             elem = (
                 <span>
                     <Link to='/'><button type="button" className="btn btn-outline-warning">Flex Mart</button></Link>

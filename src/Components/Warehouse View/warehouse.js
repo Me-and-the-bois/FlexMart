@@ -16,10 +16,6 @@ export default class warehouse extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount() {
-        this.getData();
-    }
-
     handleChange() {
         const nptype = document.getElementById('ptype').value;
         if(nptype === 'e-device') {
@@ -44,22 +40,6 @@ export default class warehouse extends React.Component {
             });
         }
     }
-
-    getData() {
-        axios.get("http://localhost:5000/warehouse")
-            .then(res => {
-                console.log('Data from backend', res.data);
-                const tempList = res.data.data.map(obj => {
-                    delete obj.__v;
-                    return obj;
-                })
-                tempList.sort((a,b) => (a.ptype > b.ptype) ? 1 : ((b.ptype > a.ptype) ? -1 : 0));
-                this.setState({
-                    productList: tempList
-                });
-            });
-    }
-
 
     addNewProduct = e => {
         e.preventDefault();
@@ -91,7 +71,6 @@ export default class warehouse extends React.Component {
                             .then(res => {
                                 console.log(res.data.message);
                                 document.getElementById('reset').click();
-                                this.getData();
                             });
                     })
             });
@@ -109,7 +88,7 @@ export default class warehouse extends React.Component {
                     <MDBRow>
                         <MDBCol md="12">
                         <MDBCard>
-                            <MDBCardHeader style={{backgroundColor: "black", color: "yellow"}}>
+                            <MDBCardHeader style={{backgroundColor: "black", color: "white"}}>
                                 <p className="h4 text-center py-4">Add New Product:</p>
                             </MDBCardHeader>
                             <MDBCardBody>
@@ -186,7 +165,9 @@ export default class warehouse extends React.Component {
                                     </div>
                                     <div className="text-center py-4 mt-3">
                                         <button type="button" className="btn btn-dark mx-1" onClick={this.addNewProduct}>Add</button>
-                                        <button type="reset" id="reset" className="btn btn-dark mx-1" onClick={this.get}>Reset</button>
+                                        <button type="reset" id="reset" className="btn btn-dark mx-1" onClick={() => {
+                                            window.location.reload();
+                                        }}>Reset</button>
                                     </div>
                                 </form>
                             </div>

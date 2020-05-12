@@ -1,0 +1,84 @@
+.editwh, .delwh {
+    background-color: black;
+    color: white;
+}
+
+table {
+    width: 100%;
+    text-align: center;
+  }
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 15px;
+    text-align: center;
+  }
+  table#t01 tr:nth-child(even) {
+    background-color: #eee;
+  }
+  table#t01 tr:nth-child(odd) {
+   background-color: #fff;
+  }
+  table#t01 th {
+    background-color: black;
+    color: white;
+  }
+
+  .productList {
+    text-align: center;
+  }
+
+  .addbutton {
+    text-align: center;
+  }
+
+  .search {
+    width: 100%;
+    position: relative;
+    display: flex;
+    background-color: black;
+  }
+  
+  .searchTerm {
+    width: 80%;
+    border: 3px solid black;
+    border-right: none;
+    padding: 5px;
+    height: 100px;
+    border-radius: 10px 10px 10px 10px;
+    outline: none;
+    color:black;
+    margin-left: 5%;
+    margin-top: 1%;
+  }
+  
+  .searchbutton {
+    width: 15%;
+    height: 50px;
+    border: 1px solid black;
+    background-color: black;
+    text-align: center;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+    color: white;
+    font-size: 20px;
+    margin-top: 1%;
+  }
+  
+  .searchSuggest {
+    width: 95%;
+    background-color: white;
+    border: 0.5px solid black;
+    transition: 1s ease;
+    text-align: left;
+    margin-left: 1%;
+  }
+  
+  .searchContainer {
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+    list-style-type: none;
+  }

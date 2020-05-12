@@ -7,6 +7,10 @@ import warehouse from "./Components/Warehouse View/warehouse";
 import record from "./Components/Warehouse View/record";
 import delivery from "./Components/Delivery View/delivery";
 import admin from "./Components/Admin View/admin";
+import empadmin from "./Components/Admin View/empadmin";
+import empdelivery from "./Components/Admin View/empdelivery";
+import empwarehouse from "./Components/Admin View/empwarehouse";
+import customerrecord from "./Components/Admin View/customerrecord";
 import customer from "./Components/Customer View/customer";
 import edevice from "./Components/Customer View/edevices";
 import clothes from "./Components/Customer View/clothes";
@@ -51,6 +55,13 @@ export default class App extends Component {
             />
             <Route exact path="/customer/cart" component={cart} />
             <Route exact path="/admin/dashboard" component={admin} />
+            <Route 
+            exact 
+            path="/admin/dashboard/customerrecord" 
+            component={customerrecord} />
+            <Route exact path="/admin/dashboard/adminrecord" component={empadmin} />
+            <Route exact path="/admin/dashboard/deliveryrecord" component={empdelivery} />
+            <Route exact path="/admin/dashboard/warehouserecord" component={empwarehouse} />
             <Route exact path="/delivery/dashboard" component={delivery} />
             <Route exact path="/warehouse/dashboard" component={warehouse} />
             <Route exact path="/warehouse/record" component={record} />
