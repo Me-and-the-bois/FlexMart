@@ -4,8 +4,17 @@
   padding: 10px;
   text-align: center;
   font-size: 60px;
-}
 
+  color: white;
+  text-shadow: 1px 1px 2px rgb(1, 1, 2), 0 0 25px rgb(113, 255, 208),
+    0 0 5px rgb(119, 228, 210);
+}
+/*.im {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  size: 2%;
+}*/
 .welcome-components {
   text-align: center;
   font-size: 30px;
@@ -13,7 +22,7 @@
 .welcome-x {
   padding: 15px;
 }
-.welcome-page {
+/*.welcome-page {
   margin-top: 18%;
   padding-top: 4.5%;
   padding-bottom: 4.5%;
@@ -21,9 +30,87 @@
   width: 50%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
-  background-color:#FFFF66;
+  background-color: #ffff66;
+}
+
+.welcome-page {
+  -webkit-filter: brightness(70%);
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  transition: all 1s ease;
+}
+*/
+
+.welcome-page {
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  transform: scale(1.2);
+  transition: 1s ease;
 }
 
 .welcome-page:hover {
-  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.2);
+  transition: 1s ease;
+}
+
+body {
+  margin: 0;
+}
+
+.bg {
+  animation: slide 2s ease-in-out infinite alternate;
+  background-image: linear-gradient(
+    -60deg,
+    rgb(155, 35, 155) 50%,
+    rgb(112, 250, 255) 50%,
+    rgb(255, 81, 0) 50%,
+    rgb(255, 251, 0) 50%
+  );
+  bottom: 0;
+  left: -50%;
+  opacity: 0.6;
+  position: fixed;
+  right: -50%;
+  top: 0;
+  z-index: -1;
+}
+
+.bg2 {
+  animation-direction: alternate-reverse;
+  animation-duration: 4s;
+}
+
+.bg3 {
+  animation-duration: 5s;
+}
+.link {
+  opacity: 0.4;
+}
+.welcome-page {
+  background-color: rgba(127, 230, 230, 0.8);
+  border-radius: 0.25em;
+  box-shadow: 0 0 0.25em rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
+  left: 50%;
+  opacity: 0.8;
+  padding: 5vmin;
+  position: fixed;
+  text-align: center;
+  top: 45%;
+  transform: translate(-50%, -50%);
+}
+
+h1 {
+  font-family: monospace;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(25%);
+  }
 }
