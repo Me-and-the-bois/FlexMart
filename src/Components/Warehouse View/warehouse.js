@@ -80,9 +80,9 @@ export default class warehouse extends React.Component {
     }
 
     render() {
-        return(
-            <Fragment>
-                <Navbar type='warehouse'/>
+        let elem = (<div style={{textAlign: "center"}}><h1>You need to login first...</h1></div>);
+        if(localStorage.getItem('token') === 'warehouse') {
+            elem = (
                 <MDBContainer>
                     <div  className="my-5">
                     <MDBRow>
@@ -177,6 +177,12 @@ export default class warehouse extends React.Component {
                     </MDBRow>
                     </div>
                 </MDBContainer>
+            );
+        }
+        return(
+            <Fragment>
+                <Navbar type='warehouse'/>
+                {elem}
             </Fragment>
         );
     }

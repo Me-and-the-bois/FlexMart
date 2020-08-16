@@ -13,7 +13,9 @@ export default class delivery extends React.Component {
     }
 
     componentDidMount() {
-        this.getData();
+        if(localStorage.getItem('token') === 'delivery') {
+            this.getData();
+        }
     }
 
     getData() {
@@ -41,9 +43,9 @@ export default class delivery extends React.Component {
     }
 
     render() {
-        return(
-            <Fragment>
-                <Navbar type='delivery'/>
+        let elem = (<div style={{textAlign: "center"}}><h1>You need to login first...</h1></div>);
+        if(localStorage.getItem('token') === 'delivery') {
+            elem = (
                 <div>
                 {
                     this.state.products.map((obj) => {
@@ -87,6 +89,12 @@ export default class delivery extends React.Component {
                     
                 }
                 </div>
+            );
+        }
+        return(
+            <Fragment>
+                <Navbar type='delivery'/>
+                {elem}
             </Fragment>
         );
     }

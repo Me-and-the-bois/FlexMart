@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const AdminList = require('../models/adminData');
-const DeliverymanList = require('../models/deliverymanData');
-const WarehouseList = require('../models/warehouseData');
-const CustomerList = require('../models/customerData');
+const AdminList = require('../models/admin/adminData');
+const DeliverymanList = require('../models/delivery/deliverymanData');
+const WarehouseList = require('../models/warehouse/warehouseData');
+const CustomerList = require('../models/customer/customerAuthData');
 var ObjectId = require('mongodb').ObjectID; 
 
 router.get('/adminList/get', (req,res,next) => {
@@ -139,8 +139,8 @@ router.put('/deliveryList/update', (req,res,next) => {
 })
 
 router.put('/customerList/update', (req,res,next) => {
-    console.log('Customer Id to be updated:', req.body.eid);
-    CustomerList.updateOne({'_id': ObjectId(req.body.eid)}, {eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal}).then(result => {
+    console.log('Customer Id to be updated:', req.body.id);
+    CustomerList.updateOne({'_id': ObjectId(req.body.id)}, {type: req.body.type, name: req.body.name, email: req.body.email, pwd: req.body.pwd, phone: req.body.phone}).then(result => {
         console.log(result._id);
         res.status(201).json({message: "Customer updated successfully!!"});
       });

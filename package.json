@@ -11,6 +11,7 @@
     "bootstrap": "^4.4.1",
     "express": "^4.17.1",
     "firebase": "^7.14.3",
+    "font-awesome": "^4.7.0",
     "mdbreact": "^4.26.0",
     "mongoose": "^5.9.4",
     "multer": "^1.4.2",

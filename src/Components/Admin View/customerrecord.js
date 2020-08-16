@@ -1,16 +1,19 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
 import './table.css';
+import ModalComponent from './ModalComponent';
+import Navbar from "../layout/navbar";
 
 export default class customerrecord extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            columns: [],
+            columns: ["ID","NAME","EMAIL","PHONE","PWD","TYPE","DELETE","EDIT"],
             data: [],
-            pnamelist: [],
-            pidlist: [],
-            suggestions: []
+            namelist: [],
+            idlist: [],
+            suggestions: [],
+            rowDetails: {}
         };
         this.getData = this.getData.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -20,31 +23,35 @@ export default class customerrecord extends React.Component {
     }
 
     componentDidMount() {
-        this.getData();
+        if(localStorage.getItem('token') === 'admin') {
+            this.getData();
+        }
     }
 
     getData() {
-        axios.get('http://localhost:5000/admin/adminList/get')
+        axios.get('http://localhost:5000/admin/customerList/get')
         .then(res => {
-            console.log(res.data.message);
-            // const temp = props.data;
-            // const tempname = [];
-            // const tempid = [];
-            // temp.forEach(obj => {
-            //     tempname.push(obj.pname);
-            //     tempid.push(obj._id);
-            // });
-            // return {
-            //     columns: props.columns,
-            //     data: props.data,
-            //     pnamelist: tempname,
-            //     pidlist: tempid
-            // }; 
+            console.log(res.data.message, res.data.data);
+            const temp = res.data.data.map(obj => {
+                delete obj.__v;
+                return obj;
+            });
+            const tempname = [];
+            const tempid = [];
+            temp.forEach(obj => {
+                tempname.push(obj.name);
+                tempid.push(obj._id);
+            });
+            this.setState({
+                data: temp,
+                namelist: tempname,
+                idlist: tempid
+            }); 
         });
     }
 
     handleChange(e) {
-        const tempname = [...this.state.pnamelist];
+        const tempname = [...this.state.namelist];
         console.log(tempname);
         console.log(e.keyCode,e.target.value);
         const inputval = e.target.value;
@@ -55,7 +62,7 @@ export default class customerrecord extends React.Component {
             return;
         }
         let suggestedvalues = [];
-        const tempid = this.state.pidlist;
+        const tempid = [...this.state.idlist];
         let key,value;
         for(key in tempname) {
             if(suggestedvalues.length <=5) {
@@ -91,66 +98,91 @@ export default class customerrecord extends React.Component {
         this.search(this.state.suggestions[0]);
     }
 
+    handleDelete(row) {
+        console.log("Delete!!", row);
+        axios.delete("http://localhost:5000/admin/customerList/delete", {data: {id: row._id}})
+            .then(res => {
+                console.log(res.data.message);
+                this.getData();
+            })
+    }
+
+    handleEdit(row) {
+        console.log("Edit!!", row);
+        this.setState({
+            rowDetails: row
+        });
+        document.getElementById('empadminBtn').click();
+    }
+
     search(name) {
         console.log(name);
         let id = '';
         this.state.data.forEach(elem => {
-            if(elem.pname === name) {
+            if(elem.name === name) {
                 id = elem._id;
             } else if(elem._id === name) {
                 id = elem._id;
             }
         })
+        this.setState({
+            suggestions: []
+        })
         document.getElementById("tabrow" + id).scrollIntoView();
     }
 
     render(){
+        let elem = (<div style={{textAlign: "center"}}><h1>You need to login first...</h1></div>);
+        if(localStorage.getItem('token') === 'admin') {
+            elem = (
+                <span>
+                    <div className="search my-0">
+                        <input className="searchTerm" id="warehousesearch" type="text" placeholder="Search by name or id..." onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
+                        <button type="button" className="searchbutton" onClick={this.handleClick}>
+                            Search
+                        </button>
+                    </div>
+                    <ul className="searchContainer" id="searchContainer">
+                    {
+                        this.state.suggestions.map(elem => {
+                            return (
+                                <li key={{elem} + Math.random()}>
+                                    <button type="button" className="searchSuggest"
+                                    onClick={() => {
+                                        this.search(elem);
+                                    }}>{elem}</button>
+                                </li>
+                            )
+                        })
+                    }
+                    </ul>
+                    <table id="t01">
+                        <tbody>
+                        <tr>
+                            {this.state.columns.map(data => <th key={data}>{data}</th>)}
+                        </tr>
+                        {this.state.data.map(row => {
+                                    return(
+                                    <tr key={row._id} id={"tabrow" + row._id}>
+                                        {Object.keys(row).map(rowdatakey => {
+                                                return <td key={rowdatakey}>{row[rowdatakey]}</td>
+                                            })}
+                                        <td><button type="button" className="editwh mx-1" onClick= {() => {this.handleDelete(row)}}><i className="fa fa-remove"></i></button></td>
+                                        <td><button type="button" className="delwh mx-1" onClick= {() => {this.handleEdit(row)}}><i className="fa fa-edit"></i></button></td>
+                                    </tr>
+                                    );
+                                })
+                        }
+                        </tbody>
+                    </table>
+                    <ModalComponent row={this.state.rowDetails} get={this.getData} token='customer' />
+                </span>
+            );
+        }
         return(
             <Fragment>
-                <div className="search my-0">
-                    <input className="searchTerm" id="warehousesearch" type="text" placeholder="Search by name or id..." onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
-                    <button type="button" className="searchbutton" onClick={this.handleClick}>
-                        Search
-                    </button>
-                </div>
-                <ul className="searchContainer" id="searchContainer">
-                {
-                    this.state.suggestions.map(elem => {
-                        return (
-                            <li key={elem}>
-                                <button type="button" className="searchSuggest"
-                                onClick={() => {
-                                    this.search(elem);
-                                }}>{elem}</button>
-                            </li>
-                        )
-                    })
-                }
-                </ul>
-                <table id="t01">
-                    <tbody>
-                    <tr>
-                        {this.state.columns.map(data => <th key={data}>{data}</th>)}
-                    </tr>
-                    {this.state.data.map(row => {
-                                return(
-                                <tr key={row._id} id={"tabrow" + row._id}>
-                                    {Object.keys(row).map(rowdatakey => {
-                                            if(rowdatakey !== 'pimg')
-                                            return <td key={rowdatakey}>{row[rowdatakey]}</td>
-                                            else {
-                                                const img = row[rowdatakey];
-                                                return <td key={rowdatakey}><img src={img} width="100" height ="100" alt={row['pname']}/></td>
-                                            }
-                                        })}
-                                    <td><button type="button" className="editwh mx-1" onClick= {() => {this.deleteProduct(row)}}><i className="fa fa-remove"></i></button></td>
-                                    <td><button type="button" className="delwh mx-1" onClick= {() => {this.editProduct(row)}}><i className="fa fa-edit"></i></button></td>
-                                </tr>
-                                );
-                            })
-                    }
-                    </tbody>
-                </table>
+                <Navbar type='adminrecordcustomer'/>
+                {elem}
             </Fragment>
         );
     }

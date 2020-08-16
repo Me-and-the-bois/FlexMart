@@ -1,0 +1,49 @@
+.edevice {
+  background-color: orange;
+  border: 0ch;
+  border-radius: 4px;
+}
+
+.clothes {
+  background-color: lightgreen;
+  border: 0ch;
+  border-radius: 4px;
+}
+
+.furniture {
+  background-color: lightskyblue;
+  border: 0ch;
+  border-radius: 4px;
+}
+
+.food {
+  background-color: burlywood ;
+  border: 0ch;
+  border-radius: 4px;
+}
+.food:hover {
+  box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.2);
+  transition: 1s ease;
+}
+.furniture:hover {
+  box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.2);
+  transition: 1s ease;
+}
+
+.clothes:hover {
+  box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.2);
+  transition: 1s ease;
+}
+
+.edevice:hover {
+  box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.2);
+  transition: 1s ease;
+}
+.card {
+  color: rgb(0, 0, 0);
+  height: 100%;
+  cursor: pointer;
+}
+.p {
+  color: white;
+}

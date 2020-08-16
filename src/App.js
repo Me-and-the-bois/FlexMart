@@ -11,15 +11,16 @@ import empadmin from "./Components/Admin View/empadmin";
 import empdelivery from "./Components/Admin View/empdelivery";
 import empwarehouse from "./Components/Admin View/empwarehouse";
 import customerrecord from "./Components/Admin View/customerrecord";
-import customer from "./Components/Customer View/customer";
-import edevice from "./Components/Customer View/edevices";
-import clothes from "./Components/Customer View/clothes";
-import food from "./Components/Customer View/food";
-import furniture from "./Components/Customer View/furniture";
-import cart from "./Components/Customer View/cart";
+import customer from "./Components/Customer View/customer/customer";
+import edevice from "./Components/Customer View/customer/edevices";
+import clothes from "./Components/Customer View/customer/clothes";
+import food from "./Components/Customer View/customer/food";
+import furniture from "./Components/Customer View/customer/furniture";
+import cart from "./Components/Customer View/cart/cart";
 import AdminLogin from "../src/Components/auth/Login/AdminLogin";
 import CustomerLogin from "./Components/auth/Login/CustomerLogin";
-import VendorLogin from "./Components/auth/Login/VendorLogin";
+import DeliveryLogin from "./Components/auth/Login/DeliveryLogin";
+import WarehouseLogin from "./Components/auth/Login/WarehouseLogin";
 import CustomerSignUp from "./Components/auth/SignUp/CustomerSignUp";
 import React, { Component } from "react";
 
@@ -33,7 +34,8 @@ export default class App extends Component {
             <Route exact path="/Login" component={Login} />
             <Route exact path="/Login/Admin" component={AdminLogin} />
             <Route exact path="/Login/Customer" component={CustomerLogin} />
-            <Route exact path="/Login/Vendor" component={VendorLogin} />
+            <Route exact path="/Login/Delivery" component={DeliveryLogin} />
+            <Route exact path="/Login/Warehouse" component={WarehouseLogin} />
             <Route exact path="/SignUp/Customer" component={CustomerSignUp} />
             <section className="container"></section>
             <Route exact path="/customer/dashboard" component={customer} />

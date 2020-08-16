@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const EdeviceList = require('../models/edevice');
-const ClothesList = require('../models/clothes');
-const FoodList = require('../models/food');
-const FurnitureList = require('../models/furniture');
+const EdeviceList = require('../models/customer/edevice');
+const ClothesList = require('../models/customer/clothes');
+const FoodList = require('../models/customer/food');
+const FurnitureList = require('../models/customer/furniture');
 const ObjID = require('mongoose').ObjectID ;
 
 router.post('/productList/edevice/add', (req,res,next) => {

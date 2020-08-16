@@ -24,7 +24,9 @@ export default class empdelivery extends React.Component {
     }
 
     componentDidMount() {
-        this.getData();
+        if(localStorage.getItem('token') === 'admin') {
+            this.getData();
+        }
     }
 
     getData() {
@@ -128,56 +130,64 @@ export default class empdelivery extends React.Component {
     }
 
     render(){
+        let elem = (<div style={{textAlign: "center"}}><h1>You need to login first...</h1></div>);
+        if(localStorage.getItem('token') === 'admin') {
+            elem = (
+                <span>
+                    <div className="search my-0">
+                        <input className="searchTerm" id="deliveryrecordsearch" type="text" placeholder="Search by name or id..." onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
+                        <button type="button" className="searchbutton" onClick={this.handleClick}>
+                            Search
+                        </button>
+                    </div>
+                    <ul className="searchContainer" id="adminrecordsearchContainer">
+                    {
+                        this.state.suggestions.map(elem => {
+                            return (
+                                <li key={elem}>
+                                    <button type="button" className="searchSuggest"
+                                    onClick={() => {
+                                        this.search(elem);
+                                    }}>{elem}</button>
+                                </li>
+                            )
+                        })
+                    }
+                    </ul>
+                    <table id="t01">
+                        <tbody>
+                        <tr>
+                            {this.state.columns.map(data => <th key={data}>{data}</th>)}
+                        </tr>
+                        {this.state.data.map(row => {
+                                    return(
+                                    <tr key={row._id} id={"deliveryrecordtabrow" + row._id}>
+                                        {Object.keys(row).map(rowdatakey => {
+                                                if(rowdatakey !== 'eimg')
+                                                return <td key={rowdatakey}>{row[rowdatakey]}</td>
+                                                else {
+                                                    const img = row[rowdatakey];
+                                                    return <td key={rowdatakey}><img src={img} width="100" height ="100" alt={row['ename']}/></td>
+                                                }
+                                            })}
+                                        <td><button type="button" className="editwh mx-1" onClick= {() => {
+                                            this.handleDelete(row);
+                                        }}><i className="fa fa-remove"></i></button></td>
+                                        <td><button type="button" className="delwh mx-1" onClick= {() => {this.handleEdit(row)}}><i className="fa fa-edit"></i></button></td>
+                                    </tr>
+                                    );
+                                })
+                        }
+                        </tbody>
+                    </table>
+                    <ModalComponent row={this.state.rowDetails} get={this.getData} token='delivery'/>
+                </span>
+            );
+        }
         return(
             <Fragment>
                 <Navbar type='adminrecorddelivery'/>
-                <div className="search my-0">
-                    <input className="searchTerm" id="deliveryrecordsearch" type="text" placeholder="Search by name or id..." onChange={this.handleChange} onKeyUp={this.handleKeyUp}/>
-                    <button type="button" className="searchbutton" onClick={this.handleClick}>
-                        Search
-                    </button>
-                </div>
-                <ul className="searchContainer" id="adminrecordsearchContainer">
-                {
-                    this.state.suggestions.map(elem => {
-                        return (
-                            <li key={elem}>
-                                <button type="button" className="searchSuggest"
-                                onClick={() => {
-                                    this.search(elem);
-                                }}>{elem}</button>
-                            </li>
-                        )
-                    })
-                }
-                </ul>
-                <table id="t01">
-                    <tbody>
-                    <tr>
-                        {this.state.columns.map(data => <th key={data}>{data}</th>)}
-                    </tr>
-                    {this.state.data.map(row => {
-                                return(
-                                <tr key={row._id} id={"deliveryrecordtabrow" + row._id}>
-                                    {Object.keys(row).map(rowdatakey => {
-                                            if(rowdatakey !== 'eimg')
-                                            return <td key={rowdatakey}>{row[rowdatakey]}</td>
-                                            else {
-                                                const img = row[rowdatakey];
-                                                return <td key={rowdatakey}><img src={img} width="100" height ="100" alt={row['ename']}/></td>
-                                            }
-                                        })}
-                                    <td><button type="button" className="editwh mx-1" onClick= {() => {
-                                        this.handleDelete(row);
-                                    }}><i className="fa fa-remove"></i></button></td>
-                                    <td><button type="button" className="delwh mx-1" onClick= {() => {this.handleEdit(row)}}><i className="fa fa-edit"></i></button></td>
-                                </tr>
-                                );
-                            })
-                    }
-                    </tbody>
-                </table>
-                <ModalComponent row={this.state.rowDetails} get={this.getData} token='delivery'/>
+                {elem}
             </Fragment>
         );
     }

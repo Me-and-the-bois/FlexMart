@@ -20,7 +20,9 @@ export default class warehouse extends React.Component {
     }
 
     componentDidMount() {
-        this.getData();
+        if(localStorage.getItem('token') === 'warehouse') {
+            this.getData();
+        }
     }
 
     componentDidUpdate() {
@@ -108,16 +110,24 @@ export default class warehouse extends React.Component {
     }
 
     render() {
-        return(
-            <Fragment>
-                <Navbar type='warehouserecord'/>
+        let elem = (<div style={{textAlign: "center"}}><h1>You need to login first...</h1></div>);
+        if(localStorage.getItem('token') === 'warehouse') {
+            elem = (
+                <span>
                 <div className="productList">
                     <Table columns={this.state.columns} data={this.state.productList} delete={this.handleDelete} edit={this.handleEdit} hidden/><br/>
                     <div className="addbutton">
                         <button type="button" id="addProduct" className="btn btn-dark mx-1" onClick={this.addProduct} hidden>Add</button>
                     </div>
                 </div>
-            <ModalComponent row={this.state.rowDetails} get={this.get} />
+                <ModalComponent row={this.state.rowDetails} get={this.get} />
+            </span>
+            );
+        }
+        return(
+            <Fragment>
+                <Navbar type='warehouserecord'/>
+                {elem}
             </Fragment>
         );
     }

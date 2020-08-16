@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var ObjectId = require('mongodb').ObjectID;
-const DeliveryList = require('../models/productForDelivery');
+const DeliveryList = require('../models/delivery/productForDelivery');
 
 router.post('/add', (req,res,next) => {
     const deliveryList = new DeliveryList({delivered: "No", deliveryman: "No", list: req.body.data});

@@ -46,81 +46,89 @@ export default class admin extends React.Component {
     }
 
     render() {
+        let elem = (<div style={{textAlign: "center"}}><h1>You need to login first...</h1></div>);
+        if(localStorage.getItem('token') === 'admin') {
+            elem = (
+                <span>
+                    <MDBContainer>
+                        <div  className="my-5">
+                        <MDBRow>
+                            <MDBCol md="12">
+                            <MDBCard>
+                                <MDBCardHeader style={{backgroundColor: "black", color: "white"}}>
+                                    <p className="h4 text-center py-4">Add New Employee:</p>
+                                </MDBCardHeader>
+                                <MDBCardBody>
+                                <div className="newEmployee">
+                                    <form>
+                                        <div className="black-text">
+                                            <label>Employee type:</label>
+                                            <select id="etype" className="browser-default custom-select" onChange={this.handleChange}>
+                                                <option value="admin" defaultValue>Admin</option>
+                                                <option value="warehouse">Warehouse</option>
+                                                <option value="delivery">Delivery</option>
+                                            </select><br/>
+                                            <MDBInput
+                                                label="Employee name:"
+                                                group
+                                                type="text"
+                                                id="ename"
+                                                name="ename"
+                                            />
+                                            <label>
+                                            Employee Image:
+                                            </label>
+                                            <div>
+                                                <input
+                                                    type="file"
+                                                    id="eimg"
+                                                    name="eimg"
+                                                    accept="image/*"
+                                                    />
+                                            </div>
+                                            <MDBInput
+                                                label="Employee mail id"
+                                                group
+                                                type="email"
+                                                id="email"
+                                                name="email"
+                                            />
+                                            <MDBInput
+                                                label="Employee password"
+                                                group
+                                                type="text"
+                                                id="epwd"
+                                                name="epwd"
+                                            />
+                                            <MDBInput
+                                                label="Employee salary:"
+                                                group
+                                                type="number"
+                                                id="esal"
+                                                name="esal"
+                                            /><br/>
+                                        </div>
+                                        <div className="text-center py-4 mt-3">
+                                            <button type="button" className="btn btn-dark mx-1" onClick={this.addNewEmployee}>Add</button>
+                                            <button type="reset" id="reset" className="btn btn-dark mx-1" onClick={() => {
+                                                window.location.reload();
+                                            }}>Reset</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                </MDBCardBody>
+                            </MDBCard>
+                            </MDBCol>
+                        </MDBRow>
+                        </div>
+                    </MDBContainer>
+                </span>
+            );
+        }
         return(
             <Fragment>
                 <Navbar type='admin'/>
-                <MDBContainer>
-                    <div  className="my-5">
-                    <MDBRow>
-                        <MDBCol md="12">
-                        <MDBCard>
-                            <MDBCardHeader style={{backgroundColor: "black", color: "white"}}>
-                                <p className="h4 text-center py-4">Add New Employee:</p>
-                            </MDBCardHeader>
-                            <MDBCardBody>
-                            <div className="newEmployee">
-                                <form>
-                                    <div className="black-text">
-                                        <label>Employee type:</label>
-                                        <select id="etype" className="browser-default custom-select" onChange={this.handleChange}>
-                                            <option value="admin" defaultValue>Admin</option>
-                                            <option value="warehouse">Warehouse</option>
-                                            <option value="delivery">Delivery</option>
-                                        </select><br/>
-                                        <MDBInput
-                                            label="Employee name:"
-                                            group
-                                            type="text"
-                                            id="ename"
-                                            name="ename"
-                                        />
-                                        <label>
-                                        Employee Image:
-                                        </label>
-                                        <div>
-                                            <input
-                                                type="file"
-                                                id="eimg"
-                                                name="eimg"
-                                                accept="image/*"
-                                                />
-                                        </div>
-                                        <MDBInput
-                                            label="Employee mail id"
-                                            group
-                                            type="email"
-                                            id="email"
-                                            name="email"
-                                        />
-                                        <MDBInput
-                                            label="Employee password"
-                                            group
-                                            type="text"
-                                            id="epwd"
-                                            name="epwd"
-                                        />
-                                        <MDBInput
-                                            label="Employee salary:"
-                                            group
-                                            type="number"
-                                            id="esal"
-                                            name="esal"
-                                        /><br/>
-                                    </div>
-                                    <div className="text-center py-4 mt-3">
-                                        <button type="button" className="btn btn-dark mx-1" onClick={this.addNewEmployee}>Add</button>
-                                        <button type="reset" id="reset" className="btn btn-dark mx-1" onClick={() => {
-                                            window.location.reload();
-                                        }}>Reset</button>
-                                    </div>
-                                </form>
-                            </div>
-                            </MDBCardBody>
-                        </MDBCard>
-                        </MDBCol>
-                    </MDBRow>
-                    </div>
-                </MDBContainer>
+                {elem}
             </Fragment>
         );
     }

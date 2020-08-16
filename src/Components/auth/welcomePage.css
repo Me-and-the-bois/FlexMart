@@ -114,3 +114,7 @@ h1 {
     transform: translateX(25%);
   }
 }
+
+.login {
+  width: 80%;
+}

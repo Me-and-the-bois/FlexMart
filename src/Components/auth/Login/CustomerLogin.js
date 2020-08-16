@@ -1,12 +1,17 @@
 import React, { Component, Fragment } from "react";
+import { withRouter } from "react-router-dom";
 import Navbar from '../../layout/navbar';
-export default class AdminLogin extends Component {
-  state = {
-    Email: "",
-    Password: "",
-    UserType: "",
-    IsLogged: false,
-  };
+import Axios from 'axios';
+import './Login.css';
+class AdminLogin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      Email: "",
+      Password: ""
+    };
+  }
+  
   EmailHandler = (event) => {
     this.setState({ Email: event.target.value });
   };
@@ -16,65 +21,38 @@ export default class AdminLogin extends Component {
 
   LogEvent(e) {
     e.preventDefault();
-    console.log(e);
+    console.log(this.state);
+    if(this.state.Email.length>0 && this.state.Password) {
+      Axios.post("http://localhost:5000/auth/customer/signin", {email: this.state.Email, password: this.state.Password})
+        .then(res => {
+          console.log(res.data.message, res.data.token);
+          localStorage.setItem('token', res.data.token);
+          this.props.history.push('/customer/dashboard');
+        })
+        .catch(err => {
+          console.log("User id or password is not valid!!");
+        })
+    } else {
+      console.log("Enter all fields correctly!!");
+    }
   }
   render() {
     return (
       <Fragment>
         <Navbar type='welcome'/>
-        <div className="limiter">
-        <div className="container-login100">
-          <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-            <form className="login100-form validate-form">
-              <span className="login100-form-title p-b-33">Customer Login</span>
-
-              <div
-                className="wrap-input100 validate-input"
-                data-validate="Valid email is required: ex@abc.xyz"
-              >
-                <input
-                  className="input100"
-                  type="text"
-                  name="email"
-                  placeholder="Email"
-                  value={this.state.Email}
-                  onChange={this.EmailHandler}
-                />
-                <span className="focus-input100-1"></span>
-                <span className="focus-input100-2"></span>
-              </div>
-              <span className="focus-input100-1"></span>
-              <span className="focus-input100-2"></span>
-
-              <div
-                className="wrap-input100 rs1 validate-input"
-                data-validate="Password is required"
-              >
-                <input
-                  className="input100"
-                  type="password"
-                  name="pass"
-                  placeholder="Password"
-                  value={this.state.Password}
-                  onChange={this.PassHandler}
-                />
-                <span className="focus-input100-1"></span>
-                <span className="focus-input100-2"></span>
-              </div>
-
-              <div className="container-login100-form-btn m-t-20">
-                <button
-                  className="login100-form-btn"
-                  onClick={(e) => this.LogEvent(e)}
-                >
-                  Sign in
-                </button>
-              </div>
-            </form>
-          </div>
+        <div class="wrapper">
+          <form class="form-signin">       
+            <h2 class="form-signin-heading">Login</h2>
+            <input type="text" class="form-control" name="username" placeholder="Email Address" required="true" autofocus="" value={this.state.Email}
+                    onChange={this.EmailHandler} />
+            <input type="password" class="form-control" name="password" placeholder="Password" required="true"  value={this.state.Password}
+                    onChange={this.PassHandler}/>      
+            <button class="btn btn-dark btn-sm">Login</button>   
+          </form>
         </div>
-      </div>
       </Fragment>
     );
   }
 }
+
+export default withRouter(AdminLogin);

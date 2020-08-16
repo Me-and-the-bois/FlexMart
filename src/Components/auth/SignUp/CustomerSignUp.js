@@ -1,13 +1,20 @@
 import React, { Component, Fragment } from "react";
+import { withRouter } from "react-router-dom";
 import Navbar from "../../layout/navbar";
-export default class CustomerSignUp extends Component {
-  state = {
-    Email: "",
-    Name: "",
-    Phone: "",
-    Password: "",
-    UserType: "Customer",
-  };
+import Axios from 'axios';
+import '../Login/Login.css';
+class CustomerSignUp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      Email: "",
+      Name: "",
+      Phone: "",
+      Password: "",
+      UserType: "Customer",
+    };
+  }
+  
   EmailHandler = (event) => {
     this.setState({ Email: event.target.value });
   };
@@ -20,95 +27,44 @@ export default class CustomerSignUp extends Component {
   PassHandler = (event) => {
     this.setState({ Password: event.target.value });
   };
+
   SignEvent = (e) => {
     e.preventDefault();
-
     console.log(this.state);
+    if(this.state.Email.length>0 && this.state.Name.length>0 && this.state.Password && this.state.Phone.length>0 && this.state.UserType.length>0) {
+      Axios.post("http://localhost:5000/auth/customer/signup", {email: this.state.Email, name: this.state.Name, password: this.state.Password, phone: this.state.Phone, type: this.state.UserType})
+        .then(res => {
+          console.log(res.data.message);
+          this.props.history.push('/Login/Customer');
+        })
+        .catch(err => {
+          console.log("User id already exists!!");
+        })
+    } else {
+      console.log("Enter all fields correctly!!");
+    }
   };
   render() {
     return (
       <Fragment>
         <Navbar type="welcome" />
-        <div className="limiter">
-          <div className="container-login100">
-            <div className="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-50">
-              <form className="login100-form validate-form">
-                <span className="login100-form-title p-b-33">
-                  Customer SignUp
-                </span>
-
-                <div
-                  className="wrap-input100 "
-                  data-validate="Valid email is required: ex@abc.xyz"
-                >
-                  <input
-                    className="input100"
-                    type="text"
-                    name="email"
-                    placeholder="Email"
-                    value={this.state.Email}
-                    onChange={this.EmailHandler}
-                  />
-                  <span className="focus-input100-1"></span>
-                  <span className="focus-input100-2"></span>
-                </div>
-                <span className="focus-input100-1"></span>
-                <span className="focus-input100-2"></span>
-                <div className="wrap-input100 ">
-                  <input
-                    className="input100"
-                    type="text"
-                    name="Name"
-                    placeholder="Name"
-                    value={this.state.Name}
-                    onChange={this.NameHandler}
-                  />
-                  <span className="focus-input100-1"></span>
-                  <span className="focus-input100-2"></span>
-                </div>
-                <div className="wrap-input100 ">
-                  <input
-                    type="tel"
-                    className="input100"
-                    name="phone"
-                    pattern="[0-9]{10}"
-                    placeholder="Phone Number"
-                    value={this.state.Phone}
-                    onChange={this.PhoneHandler}
-                  />
-                  <span className="focus-input100-1"></span>
-                  <span className="focus-input100-2"></span>
-                </div>
-
-                <div
-                  className="wrap-input100 rs1 "
-                  data-validate="Password is required"
-                >
-                  <input
-                    className="input100"
-                    type="password"
-                    name="pass"
-                    placeholder="Password"
-                    value={this.state.Password}
-                    onChange={this.PassHandler}
-                  />
-                  <span className="focus-input100-1"></span>
-                  <span className="focus-input100-2"></span>
-                </div>
-
-                <div className="container-login100-form-btn m-t-20">
-                  <button
-                    className="btn btn-dark mx-1"
-                    onClick={this.SignEvent}
-                  >
-                    Sign in
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+        <div class="wrapper">
+          <form class="form-signin">       
+            <h2 class="form-signin-heading">Signup</h2>
+            <input type="text" class="form-control" name="name" placeholder="Name" required="true" autofocus="" value={this.state.Name}
+                    onChange={this.NameHandler} />
+            <input type="text" class="form-control" name="phone" placeholder="Phone" required="true" autofocus="" value={this.state.Phone}
+                    onChange={this.PhoneHandler} />
+            <input type="text" class="form-control" name="username" placeholder="Email Address" required="true" autofocus="" value={this.state.Email}
+                    onChange={this.EmailHandler} />
+            <input type="password" class="form-control" name="password" placeholder="Password" required="true"  value={this.state.Password}
+                    onChange={this.PassHandler}/>      
+            <button class="btn btn-dark btn-sm">Login</button>   
+          </form>
         </div>
       </Fragment>
     );
   }
 }
+
+export default withRouter(CustomerSignUp);

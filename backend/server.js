@@ -4,6 +4,7 @@ const warehouseRoutes = require('./routes/warehouse');
 const customerRoutes = require('./routes/customer');
 const deliveryRoutes = require('./routes/delivery');
 const adminRoutes = require('./routes/admin');
+const authRoutes = require('./routes/auth');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -29,6 +30,7 @@ app.use('/warehouse', warehouseRoutes);
 app.use('/customer', customerRoutes);
 app.use('/delivery', deliveryRoutes);
 app.use('/admin', adminRoutes);
+app.use('/auth', authRoutes);
 app.listen(port, () => {
   console.log(`Listening to requests on http://localhost:${port}`);
 });
