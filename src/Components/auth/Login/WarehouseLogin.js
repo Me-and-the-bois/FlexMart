@@ -20,7 +20,7 @@ class WarehouseLogin extends Component {
     this.setState({ Password: event.target.value });
   };
 
-  LogEvent(e) {
+  LogEvent = (e) => {
     e.preventDefault();
     console.log(this.state);
     if(this.state.Email.length>0 && this.state.Password) {
@@ -48,7 +48,7 @@ class WarehouseLogin extends Component {
                     onChange={this.EmailHandler} />
             <input type="password" class="form-control" name="password" placeholder="Password" required="true"  value={this.state.Password}
                     onChange={this.PassHandler}/>      
-            <button class="btn btn-dark btn-sm">Login</button>   
+            <button class="btn btn-dark btn-sm" onClick={this.LogEvent}>Login</button>   
           </form>
         </div>
       </Fragment>

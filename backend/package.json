@@ -11,7 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.14.0",
-    "react-redux": "^7.2.0"
+    "mongoose": "^5.9.4",
+    "multer": "^1.4.2",
+    "express": "^4.17.1"
   }
 }

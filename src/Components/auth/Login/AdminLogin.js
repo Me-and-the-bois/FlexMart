@@ -45,7 +45,7 @@ export default class AdminLogin extends Component {
                     onChange={this.EmailHandler} />
             <input type="password" class="form-control" name="password" placeholder="Password" required="true"  value={this.state.Password}
                     onChange={this.PassHandler}/>      
-            <button class="btn btn-dark btn-sm">Login</button>   
+            <button class="btn btn-dark btn-sm" onClick={this.SignIn}>Login</button>   
           </form>
         </div>
       </Fragment>

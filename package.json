@@ -9,12 +9,9 @@
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.4.1",
-    "express": "^4.17.1",
     "firebase": "^7.14.3",
     "font-awesome": "^4.7.0",
     "mdbreact": "^4.26.0",
-    "mongoose": "^5.9.4",
-    "multer": "^1.4.2",
     "perfect-scrollbar": "^1.5.0",
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0-beta.17",
@@ -24,7 +21,8 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-sidebar": "^3.0.2",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "@fortawesome/fontawesome-free": "^5.14.0"
   },
   "scripts": {
     "start": "react-scripts start",
