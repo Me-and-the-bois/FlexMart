@@ -24,4 +24,4 @@ This view is for the workwers who will update the website based on the goods ava
 This view is updated when the customer buys a product and the product is ready for delivery.  
 ## UI Snapshots
 ### Welcome Login Signup
-![Welcome1](./flexmart/welcome1?raw=true "Welcome1")
+![Welcome1](./flexmart/welcome1.png?raw=true "Welcome1")
