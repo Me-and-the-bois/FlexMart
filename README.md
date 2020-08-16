@@ -1,6 +1,14 @@
 # FlexMart
 E-commerce web app built using MERN stack for 3rd year Web Development Project with features like CRUD operations, conditional Rendering of components, search bar and sidebar for filtering, modal for data display and edit, protected routes with token from backend after authentication ie. login/signup based on user role, display of data relevant to the component and user and much more.
   
+## Run
+1. Clone repo.  
+2. cd to project folder.  
+3. Make sure nodejs is installed.  
+4. npm install  
+5. npm start. This will start the frontend server at port 3000.  
+6. cd backend to move to backend folder.  
+7. nodemon server.js. This will start backend server at port 5000.  
 ## Description
 
 FlexMart has 4 departments:  
