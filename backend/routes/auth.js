@@ -30,7 +30,7 @@ router.post('/customer/signin', (req,res,next) => {
             console.log(data);
             if(data.length>0) {
                 if(data[0].pwd === req.body.password) {
-                    res.status(201).json({message: "User signed in successfully!!", token: data[0].type});
+                    res.status(201).json({message: "User signed in successfully!!", token: data[0].type, custid: data[0].email});
                 } else {
                     res.sendStatus(404);
                 }

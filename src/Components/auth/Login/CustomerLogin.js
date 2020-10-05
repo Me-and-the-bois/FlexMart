@@ -25,8 +25,9 @@ class AdminLogin extends Component {
     if(this.state.Email.length>0 && this.state.Password) {
       Axios.post("http://localhost:5000/auth/customer/signin", {email: this.state.Email, password: this.state.Password})
         .then(res => {
-          console.log(res.data.message, res.data.token);
+          console.log(res.data.message, res.data.token, res.data.custid);
           localStorage.setItem('token', res.data.token);
+          localStorage.setItem('id', res.data.custid);
           this.props.history.push('/customer/dashboard');
         })
         .catch(err => {

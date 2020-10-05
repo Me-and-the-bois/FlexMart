@@ -46,10 +46,10 @@ class Product extends React.Component {
     render() {
         return(
             <Fragment>
-                <div className="container mx-1 body" onClick={this.handleModal}>
+                <div className="container m-1 body p-2" onClick={this.handleModal}>
                     <form>
-                        <img src={this.state.obj.pimg} alt={this.state.obj.pname} className="img-responsive"/>
-                        <div>
+                        <img src={this.state.obj.pimg} alt={this.state.obj.pname} className="img-responsive p-0 m-0"/>
+                        <div className="px-0 detail">
                             <p className="name">{this.state.obj.pname} </p>
                             <label className="number px-1">Available: {this.state.obj.pno} </label><br/>
                             <label className="discprice px-1">Rs.{this.state.obj.ppricenew} </label>

@@ -59,7 +59,7 @@ class CustomerSignUp extends Component {
                     onChange={this.EmailHandler} />
             <input type="password" class="form-control" name="password" placeholder="Password" required="true"  value={this.state.Password}
                     onChange={this.PassHandler}/>      
-            <button class="btn btn-dark btn-sm" onClick={this.SignEvent}>Login</button>   
+            <button class="btn btn-dark btn-sm" onClick={this.SignEvent}>Sign Up</button>   
           </form>
         </div>
       </Fragment>

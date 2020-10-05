@@ -98,8 +98,10 @@ class navbar extends React.Component {
         }else if(nextProps.type === 'welcome') {
             elem = (
                 <span>
-                    <Link to='/customer/dashboard'><button type="button" className="btn btn-outline-warning">Flex Mart</button></Link>
+                    <Link to='/'><button type="button" className="btn btn-outline-warning">Flex Mart</button></Link>
+                    <Link to='/customer/dashboard'><button type="button" className="btn btn-outline-warning">Dashboard</button></Link>
                 </span>
+
             );
         } else if(nextProps.type === 'productdispedevice') {
             elem = (

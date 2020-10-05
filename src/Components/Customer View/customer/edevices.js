@@ -287,8 +287,8 @@ class edevices extends React.Component {
                             <option value="tv">Television</option>
                         </select><br/>
                         <label>Price range:</label><br/>
-                        <input type="number" id="lower" min="0"/> -> Lower<br/><br/>
-                        <input type="number" id="higher" min="0"/> -> Higher<br/><br/>
+                        <input type="number" id="lower" min="0"/> -&gt; Lower<br/><br/>
+                        <input type="number" id="higher" min="0"/> -&gt; Higher<br/><br/>
                         <p>Sort by price:</p>
                         <input type="radio" id="asc" name="sort" value="asc"/>
                         <label htmlFor="asc">Ascending</label><br/>
@@ -309,7 +309,7 @@ class edevices extends React.Component {
                                     <img className="" src={this.state.modalobj.pimg} alt={this.state.modalobj.pname}/>
                                 </div>
                                 <div className="main">
-                                    <div className="m-4 body">
+                                    <div className="m-4 modalbody">
                                         <label className="discprice px-1">Rs.{this.state.modalobj.ppricenew} </label>
                                         <label className="discount px-1">{this.state.modalobj.pdiscount}% </label>
                                         <label className="price">{this.state.modalobj.pprice} </label><br/>

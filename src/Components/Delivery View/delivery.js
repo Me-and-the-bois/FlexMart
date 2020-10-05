@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
 import Navbar from '../layout/navbar';
+import './delivery.css';
 
 export default class delivery extends React.Component {
     constructor(props){
@@ -46,31 +47,40 @@ export default class delivery extends React.Component {
         let elem = (<div style={{textAlign: "center"}}><h1>You need to login first...</h1></div>);
         if(localStorage.getItem('token') === 'delivery') {
             elem = (
-                <div>
+                <div className="m-5">
                 {
                     this.state.products.map((obj) => {
                         return (
-                            <div className="jumbotron" key={obj._id}>
-                                <div className="container">Delivered: {obj.delivered}</div>
-                                <div className="container">Delivery man assigned: {obj.deliveryman}</div>
+                            <div className="jumbotron p-3" key={obj._id}>
+                                <div className="row custdetails">
+                                    <div className="col-sm-6">
+                                        <div className="container">Delivered: {obj.delivered}</div>
+                                        <div className="container">Delivery man assigned: {obj.deliveryman}</div>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <p className="container">Customer Name: {obj.custdetail.name}</p>
+                                        <p className="container">Email: {obj.custdetail.email}</p>
+                                        <p className="container">Phone: {obj.custdetail.phone}</p>
+                                    </div>
+                                </div>
                                 {
-                                    obj.list.map(elem => {
+                                    obj.prodlist.map(elem => {
                                         return (
-                                            <div className="container" key={elem._id}>
+                                            <div className="container my-3" key={elem._id}>
                                                 <div className="row">
-                                                    <div className="col-sm-4"><img src={elem.pimg} alt={elem.pname} height="100" width="100"/></div>
-                                                    <div className="col-sm-8">
-                                                        <p className="lead">Product Name: {elem.pname}</p>
-                                                        <p className="lead">Product Price: {elem.pprice}</p>
-                                                        <p className="lead">Number of items bought: {elem.pno}</p>
-                                                        <p className="lead">Total Price: {elem.tprice}</p>
+                                                    <div className="col-sm-6"><img src={elem.pimg} alt={elem.pname} height="200" width="300"/></div>
+                                                    <div className="col-sm-6">
+                                                        <p className="container">Product Name: {elem.pname}</p>
+                                                        <p className="container">Product Price: {elem.pprice}</p>
+                                                        <p className="container">Number of items bought: {elem.pno}</p>
+                                                        <p className="container">Total Price: {elem.tprice}</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         );
                                     })
                                 }
-                                <div className="container">
+                                <div className="container p-0 m-0">
                                     <label className="lead">Assign delivery man:</label><br/>
                                     <select id={"dname" + obj._id} >
                                         {
@@ -81,7 +91,7 @@ export default class delivery extends React.Component {
                                             })
                                         }
                                     </select><br/>
-                                    <button type="button" className="btn btn-danger my-2" onClick={() => {this.handleClick(obj)}}>Assign delivery man</button>
+                                    <button type="button" className="btn btn-danger m-0" onClick={() => {this.handleClick(obj)}}>Assign</button>
                                 </div>
                             </div>
                         )

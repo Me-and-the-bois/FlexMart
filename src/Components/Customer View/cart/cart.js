@@ -80,7 +80,8 @@ class Cart extends React.Component {
         console.log('Food', food);
         console.log('Furniture', furniture);
         console.log('Clothes', clothes);
-        Axios.post("http://localhost:5000/delivery/add", {data: this.state.productList})
+        const custid = localStorage.getItem('id');
+        Axios.post("http://localhost:5000/delivery/add", {data: this.state.productList, custid: custid})
             .then((res) => {
                 console.log(res.data.message);
                 if(edevice) {

@@ -2,13 +2,23 @@ const express = require('express');
 const router = express.Router();
 var ObjectId = require('mongodb').ObjectID;
 const DeliveryList = require('../models/delivery/productForDelivery');
+const CustomerAuthList = require('../models/customer/customerAuthData');
 
 router.post('/add', (req,res,next) => {
-    const deliveryList = new DeliveryList({delivered: "No", deliveryman: "No", list: req.body.data});
-    deliveryList.save()
-        .then(result => {
-            console.log(result._id);
-            res.status(201).json({message: "Products bought successfully!!"});
+    CustomerAuthList.find({email: req.body.custid})
+        .then(data => {
+            if(data.length>0) {
+                console.log('Customer detail', data);
+                const tempObj = {name: data[0].name, email: data[0].email, phone: data[0].phone, pwd: data[0].pwd, type: data[0].type};
+                const deliveryList = new DeliveryList({delivered: "No", deliveryman: "No", prodlist: req.body.data, custdetail: tempObj});
+                deliveryList.save()
+                    .then(result => {
+                        console.log(result._id);
+                        res.status(201).json({message: "Products bought successfully!!"});
+                    })
+            } else {
+                res.sendStatus(404);
+            }
         })
 })
 

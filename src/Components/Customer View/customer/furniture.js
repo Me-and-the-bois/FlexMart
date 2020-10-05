@@ -284,8 +284,8 @@ export default class furniture extends React.Component {
                             <option value="tablechair">Table-Chair</option>
                         </select><br/>
                         <label>Price range:</label><br/>
-                        <input type="number" id="lower3" min="0"/> -> Lower<br/><br/>
-                        <input type="number" id="higher3" min="0"/> -> Higher<br/><br/>
+                        <input type="number" id="lower3" min="0"/> -&gt; Lower<br/><br/>
+                        <input type="number" id="higher3" min="0"/> -&gt; Higher<br/><br/>
                         <button type="button" className="btn btn-light" onClick={this.filter}>Search</button>
                     </div>
                 </span>
@@ -301,7 +301,7 @@ export default class furniture extends React.Component {
                                     <img className="" src={this.state.modalobj.pimg} alt={this.state.modalobj.pname}/>
                                 </div>
                                 <div className="main">
-                                    <div className="m-4 body">
+                                    <div className="m-4 modalbody">
                                         <label className="discprice px-1">Rs.{this.state.modalobj.ppricenew} </label>
                                         <label className="discount px-1">{this.state.modalobj.pdiscount}% </label>
                                         <label className="price">{this.state.modalobj.pprice} </label><br/>
