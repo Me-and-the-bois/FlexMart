@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ProductList = require('../models/delivery/productData');
+const ProductList = require('../models/warehouse/productData');
 var ObjectId = require('mongodb').ObjectID;
 
 
