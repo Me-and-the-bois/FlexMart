@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const adminSchema = mongoose.Schema({
+const empSchema = mongoose.Schema({
     ename: {type: String, required: true},
     email: {type: String, required: true},
     epwd: {type: String, required: true},
@@ -9,4 +9,4 @@ const adminSchema = mongoose.Schema({
     etype: {type: String, required: true}
 });
 
-module.exports = mongoose.model('AdminList', adminSchema);
+module.exports = mongoose.model('EmpList', empSchema);

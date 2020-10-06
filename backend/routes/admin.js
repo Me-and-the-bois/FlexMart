@@ -1,27 +1,28 @@
 const express = require('express');
 const router = express.Router();
-const AdminList = require('../models/admin/adminData');
-const DeliverymanList = require('../models/delivery/deliverymanData');
-const WarehouseList = require('../models/warehouse/warehouseData');
+// const AdminList = require('../models/admin/adminData');
+// const DeliverymanList = require('../models/delivery/deliverymanData');
+// const WarehouseList = require('../models/warehouse/warehouseData');
+const EmpList = require('../models/empData');
 const CustomerList = require('../models/customer/customerAuthData');
 var ObjectId = require('mongodb').ObjectID; 
 
 router.get('/adminList/get', (req,res,next) => {
-    AdminList.find({})
+    EmpList.find({etype: 'admin'})
         .then(data => {
             res.status(201).json({message: "Admin employee details fetched successfully!!", data: data});
         })
 })
 
 router.get('/deliveryList/get', (req,res,next) => {
-    DeliverymanList.find({})
+    EmpList.find({etype: 'delivery'})
         .then(data => {
             res.status(201).json({message: "Delivery employee details fetched successfully!!", data: data});
         })
 })
 
 router.get('/warehouseList/get', (req,res,next) => {
-    WarehouseList.find({})
+    EmpList.find({etype: 'warehouse'})
         .then(data => {
             res.status(201).json({message: "Warehouse employee details fetched successfully!!", data: data});
         })
@@ -37,40 +38,46 @@ router.get('/customerList/get', (req,res,next) => {
 
 router.post('/employee/add', (req,res,next) => {
     console.log('Backend', req.body);
-    let etype = req.body.etype;
+    // let etype = req.body.etype;
     
-    switch(etype)
-    {
-        case "admin":
-            const admin = new AdminList({eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal});
-            admin.save().then(result => {
-                console.log(result._id);
-                res.status(201).json({message: "Admin employee list added successfully!!"});
-              });
-              break;
-        case "delivery":
-            const deliv = new DeliverymanList({eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal});
-            deliv.save().then(result => {
-                console.log(result._id);
-                res.status(201).json({message: "Delivery employee list added successfully!!"});
-              });
-              break;
-        case "warehouse":
-            const ware = new WarehouseList({eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal});
-            ware.save().then(result => {
-                console.log(result._id);
-                res.status(201).json({message: "Warehouse employee list added successfully!!"});
-                });
-                break;
-        default: break;
-    } 
+    // switch(etype)
+    // {
+    //     case "admin":
+    //         const admin = new AdminList({eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal});
+    //         admin.save().then(result => {
+    //             console.log(result._id);
+    //             res.status(201).json({message: "Admin employee list added successfully!!"});
+    //           });
+    //           break;
+    //     case "delivery":
+    //         const deliv = new DeliverymanList({eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal});
+    //         deliv.save().then(result => {
+    //             console.log(result._id);
+    //             res.status(201).json({message: "Delivery employee list added successfully!!"});
+    //           });
+    //           break;
+    //     case "warehouse":
+    //         const ware = new WarehouseList({eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal});
+    //         ware.save().then(result => {
+    //             console.log(result._id);
+    //             res.status(201).json({message: "Warehouse employee list added successfully!!"});
+    //             });
+    //             break;
+    //     default: break;
+    // } 
+
+    const emp = new EmpList({eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal});
+        emp.save().then(result => {
+            console.log(result._id);
+            res.status(201).json({message: "Employee list added successfully!!"});
+            });
     
 })
 
 
 router.delete('/adminList/delete', (req,res,next) => {
     console.log('Admin Id to be deleted:', req.body);
-    AdminList.deleteOne({'_id': ObjectId(req.body.id)})
+    EmpList.deleteOne({'_id': ObjectId(req.body.id)})
         .then((result) => {
             res.status(201).json({message: "Admin employee deleted successfully!!"});
         },
@@ -81,7 +88,7 @@ router.delete('/adminList/delete', (req,res,next) => {
 
 router.delete('/deliveryList/delete', (req,res,next) => {
     console.log('Delivery Id to be deleted:', req.body.id);
-    DeliverymanList.deleteOne({'_id': ObjectId(req.body.id)})
+    EmpList.deleteOne({'_id': ObjectId(req.body.id)})
         .then((result) => {
             res.status(201).json({message: "Delivery employee deleted successfully!!"});
         },
@@ -92,7 +99,7 @@ router.delete('/deliveryList/delete', (req,res,next) => {
 
 router.delete('/warehouseList/delete', (req,res,next) => {
     console.log('Warehouse Id to be deleted:', req.body.id);
-    WarehouseList.deleteOne({'_id': ObjectId(req.body.id)})
+    EmpList.deleteOne({'_id': ObjectId(req.body.id)})
         .then((result) => {
             res.status(201).json({message: "Warehouse employee deleted successfully!!"});
         },
@@ -116,7 +123,7 @@ router.delete('/customerList/delete', (req,res,next) => {
 
 router.put('/adminList/update', (req,res,next) => {
     console.log('Admin Id to be updated:', req.body.eid);
-    AdminList.updateOne({'_id': ObjectId(req.body.eid)}, {eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal}).then(result => {
+    EmpList.updateOne({'_id': ObjectId(req.body.eid)}, {eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal}).then(result => {
         console.log(result._id);
         res.status(201).json({message: "Admin employee updated successfully!!"});
       });
@@ -124,7 +131,7 @@ router.put('/adminList/update', (req,res,next) => {
 
 router.put('/warehouseList/update', (req,res,next) => {
     console.log('Warehouse Id to be updated:', req.body.eid);
-    WarehouseList.updateOne({'_id': ObjectId(req.body.eid)}, {eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal}).then(result => {
+    EmpList.updateOne({'_id': ObjectId(req.body.eid)}, {eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal}).then(result => {
         console.log(result._id);
         res.status(201).json({message: "Warehouse employee updated successfully!!"});
       });
@@ -132,7 +139,7 @@ router.put('/warehouseList/update', (req,res,next) => {
 
 router.put('/deliveryList/update', (req,res,next) => {
     console.log('Delivery Id to be updated:', req.body.eid);
-    DeliverymanList.updateOne({'_id': ObjectId(req.body.eid)}, {eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal}).then(result => {
+    EmpList.updateOne({'_id': ObjectId(req.body.eid)}, {eimg: req.body.eimg, etype: req.body.etype, ename: req.body.ename, email: req.body.email, epwd: req.body.epwd, esal: req.body.esal}).then(result => {
         console.log(result._id);
         res.status(201).json({message: "Delivery employee updated successfully!!"});
       });

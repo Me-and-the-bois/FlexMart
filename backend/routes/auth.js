@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const CustomerAuthList = require('../models/customer/customerAuthData');
-const AdminAuthList = require('../models/admin/adminData');
-const WarehouseAuthList = require('../models/warehouse/warehouseData');
-const DeliveryAuthList = require('../models/delivery/deliverymanData');
+// const AdminAuthList = require('../models/admin/adminData');
+// const WarehouseAuthList = require('../models/warehouse/warehouseData');
+// const DeliveryAuthList = require('../models/delivery/deliverymanData');
+const EmpAuthList = require('../models/empData');
 
 router.post('/customer/signup', (req,res,next) => {
     console.log(req.body);
@@ -43,7 +44,7 @@ router.post('/customer/signin', (req,res,next) => {
 
 router.post('/admin/signin', (req,res,next) => {
     console.log(req.body);
-    AdminAuthList.find({email: req.body.email})
+    EmpAuthList.find({etype: 'admin', email: req.body.email})
         .then(data => {
             console.log(data);
             if(data.length>0) {
@@ -61,7 +62,7 @@ router.post('/admin/signin', (req,res,next) => {
 
 router.post('/delivery/signin', (req,res,next) => {
     console.log(req.body);
-    DeliveryAuthList.find({email: req.body.email})
+    EmpAuthList.find({etype: 'delivery', email: req.body.email})
         .then(data => {
             console.log(data);
             if(data.length>0) {
@@ -79,7 +80,7 @@ router.post('/delivery/signin', (req,res,next) => {
 
 router.post('/warehouse/signin', (req,res,next) => {
     console.log(req.body);
-    WarehouseAuthList.find({email: req.body.email})
+    EmpAuthList.find({etype: 'warehouse', email: req.body.email})
         .then(data => {
             console.log(data);
             if(data.length>0) {
