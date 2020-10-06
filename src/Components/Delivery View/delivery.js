@@ -34,9 +34,25 @@ export default class delivery extends React.Component {
             });
     }
 
-    handleClick(obj) {
+    handleClickMan(obj) {
         const dname = document.getElementById('dname' + obj._id).value;
-        axios.put("http://localhost:5000/delivery/update", {_id: obj._id, deliveryman: dname})
+        axios.put("http://localhost:5000/delivery/update/man", {_id: obj._id, deliveryman: dname})
+            .then(res => {
+                console.log(res.data);
+                this.getData();
+            });
+    }
+
+    handleClickDelivery(obj) {
+        axios.put("http://localhost:5000/delivery/update/delivery", {_id: obj._id})
+            .then(res => {
+                console.log(res.data);
+                this.getData();
+            });
+    }
+
+    handleClickRemove(obj) {
+        axios.delete("http://localhost:5000/delivery/remove", {data: {_id: obj._id}})
             .then(res => {
                 console.log(res.data);
                 this.getData();
@@ -91,7 +107,9 @@ export default class delivery extends React.Component {
                                             })
                                         }
                                     </select><br/>
-                                    <button type="button" className="btn btn-danger m-0" onClick={() => {this.handleClick(obj)}}>Assign</button>
+                                    <button type="button" id="deliveryman" className="btn btn-danger m-0" onClick={() => {this.handleClickMan(obj)}}>Assign</button>
+                                    <button type="button" id="delivered" className="btn btn-danger mx-1" onClick={() => {this.handleClickDelivery(obj)}}>Delivered</button>
+                                    <button type="button" id="delivered" className="btn btn-danger mx-1" onClick={() => {this.handleClickRemove(obj)}}>Remove</button>
                                 </div>
                             </div>
                         )

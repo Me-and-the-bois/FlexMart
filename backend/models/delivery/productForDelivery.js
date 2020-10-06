@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const DeliverySchema = mongoose.Schema({
     delivered: {type: String, required: true},
-    deliveryman: {type: String, required: true},
+    deliveryman: {type: String, required: false},
     prodlist: [{
             ptype: {type: String, required: true},
             // pid: {type: String, required: true},
