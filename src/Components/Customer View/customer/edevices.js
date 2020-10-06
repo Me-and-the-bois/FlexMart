@@ -107,16 +107,16 @@ class edevices extends React.Component {
         console.log(lower, higher);
         if(!higher) {
             this.state.dataList.forEach(obj => {
-                console.log((Number(obj.pprice)));
-                if(Number(obj.pprice) >= lower && pcat === obj.pcategory) {
+                console.log((Number(obj.ppricenew)));
+                if(Number(obj.ppricenew) >= lower && pcat === obj.pcategory) {
                     temp.push(obj);
                     console.log(temp);
                 } 
             });
         } else {
             this.state.dataList.forEach(obj => {
-                console.log((Number(obj.pprice)));
-                if((Number(obj.pprice) >= lower)&&(Number(obj.pprice) <= higher) && pcat === obj.pcategory) {
+                console.log((Number(obj.ppricenew)));
+                if((Number(obj.ppricenew) >= lower)&&(Number(obj.ppricenew) <= higher) && pcat === obj.pcategory) {
                     temp.push(obj);
                     console.log(temp);
                 }
