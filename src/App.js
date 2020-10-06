@@ -17,6 +17,7 @@ import clothes from "./Components/Customer View/customer/clothes";
 import food from "./Components/Customer View/customer/food";
 import furniture from "./Components/Customer View/customer/furniture";
 import cart from "./Components/Customer View/cart/cart";
+import recom from "./Components/Customer View/customer/recom";
 import AdminLogin from "../src/Components/auth/Login/AdminLogin";
 import CustomerLogin from "./Components/auth/Login/CustomerLogin";
 import DeliveryLogin from "./Components/auth/Login/DeliveryLogin";
@@ -39,6 +40,7 @@ export default class App extends Component {
             <Route exact path="/SignUp/Customer" component={CustomerSignUp} />
             <section className="container"></section>
             <Route exact path="/customer/dashboard" component={customer} />
+            <Route exact path="/customer/recom" component={recom} />
             <Route
               exact
               path="/customer/dashboard/e-devices"

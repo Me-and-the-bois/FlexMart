@@ -30,6 +30,7 @@ class navbar extends React.Component {
                 <span>
                     <Link to='/customer/dashboard'><button type="button" className="btn btn-outline-warning mx-1">Dashboard</button></Link>
                     {signinbtn}
+                    <Link to='/customer/recom'><button type="button" className="btn btn-outline-warning mx-1">Recommendations</button></Link>
                 </span>
             );
             revelem = (
@@ -38,7 +39,19 @@ class navbar extends React.Component {
                     {logoutbtn}
                 </span>
             );
-        } else if(nextProps.type === 'delivery') {
+        } else if(nextProps.type === 'recom') {
+            elem = (
+                <span>
+                    <Link to='/customer/dashboard'><button type="button" className="btn btn-outline-warning mx-1">Dashboard</button></Link>
+                </span>
+            );
+            revelem = (
+                <span>
+                    <Link to='/customer/cart'><button type="button" className="btn btn-outline-warning mx-1">Cart</button></Link>
+                    {logoutbtn}
+                </span>
+            );
+        }else if(nextProps.type === 'delivery') {
             revelem = (
                 <span>
                     {logoutbtn}
