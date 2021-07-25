@@ -5,7 +5,7 @@ import 'firebase/storage';
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
-    apiKey: "AIzaSyD4TQdSSe3srvsmtExTqNX2MECcDjlTRJc",
+    apiKey: process.env.FIREBASE_API_KEY,
     authDomain: "flexmart-9e91e.firebaseapp.com",
     databaseURL: "https://flexmart-9e91e.firebaseio.com",
     projectId: "flexmart-9e91e",

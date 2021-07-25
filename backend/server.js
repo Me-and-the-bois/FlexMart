@@ -6,13 +6,14 @@ const deliveryRoutes = require('./routes/delivery');
 const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || "5000";
 app.use(bodyParser.json({limit: '10MB', extended: true}))
 app.use(bodyParser.urlencoded({limit: '10MB', extended: true}))
 
-mongoose.connect("mongodb+srv://4Noob:TRcdjP3XDax3UsWG@cluster0-mqvxr.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true,  useUnifiedTopology: true })
+mongoose.connect(`mongodb+srv://4Noob:${process.env.MONGODB_API_KEY}@cluster0-mqvxr.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true,  useUnifiedTopology: true })
   .then(() => {
     console.log("Connected to database!");
   })
